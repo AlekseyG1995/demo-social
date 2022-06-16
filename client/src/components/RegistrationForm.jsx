@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Typography,
   Button,
@@ -15,14 +16,14 @@ import {
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 // import BadgeIcon from '@mui/icons-material/Badge';
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({ toggleSignMode }) => {
   const [currentGender, setCurrentGender] = React.useState('male');
 
   return (
     <>
       <Container sx={{ mt: 10 }}>
         <Typography variant='h4' textAlign={'center'}>
-          Sign up <Typography variant='h4' sx={{ fontWeight: "bold" }}>demo-social</Typography>
+          Sign up <Typography variant='h4' component={'span'} sx={{ fontWeight: "bold" }}>demo-social</Typography>
         </Typography>
         <Box
           width='300px'
@@ -66,13 +67,14 @@ export const RegistrationForm = () => {
             />
           </Button>
           <Button color='secondary'
-          size='small'
-          sx={{fontSize:'.75rem', mt:5}}
+            size='small'
+            sx={{ fontSize: '.75rem', mt: 5 }}
+            onClick={() => toggleSignMode()}
           >
             Do you already have an account? Sign in
 
           </Button>
-          <Button endIcon={<ContactMailIcon />}  variant='contained'>register</Button>
+          <Button endIcon={<ContactMailIcon />} variant='contained'>register</Button>
         </Box>
       </Container>
 
@@ -80,3 +82,7 @@ export const RegistrationForm = () => {
   )
 }
 
+
+RegistrationForm.propTypes = {
+  toggleSignMode: PropTypes.func
+};

@@ -1,6 +1,7 @@
 import { RegistrationForm } from "../components/RegistrationForm";
 import React, { useState, useEffect } from 'react';
 import { AuthorizationForm } from "../components/AuthorizationForm";
+import { useToggle } from "../hooks/useToggle";
 
 const Authorization = () => {
   return (
@@ -10,11 +11,13 @@ const Authorization = () => {
 
 const Index = () => {
 
-  const [isRegisrationMode, setIsRegisrationMode] = useState(true)
+  const [signMode, toggleSignMode] = useToggle(true)
 
   return (
-    <>{isRegisrationMode ? <RegistrationForm /> : <AuthorizationForm />}
-
+    <>
+      {signMode ?
+        <RegistrationForm toggleSignMode={toggleSignMode} /> :
+        <AuthorizationForm toggleSignMode={toggleSignMode} />}
     </>
 
   );

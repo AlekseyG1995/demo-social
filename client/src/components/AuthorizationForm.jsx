@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   Typography,
   Button,
@@ -14,7 +15,7 @@ import {
 } from "@mui/material";
 import { Link } from 'react-router-dom';
 
-export const AuthorizationForm = () => {
+export const AuthorizationForm = ({ toggleSignMode }) => {
 
 
 
@@ -22,7 +23,7 @@ export const AuthorizationForm = () => {
     <>
       <Container sx={{ mt: 10 }}>
         <Typography variant='h4' textAlign={'center'}>
-          Welcome to <Typography variant='h4' sx={{ fontWeight: "bold" }}>demo-social</Typography>
+          Welcome to <Typography variant='h4' component='span' sx={{ fontWeight: "bold" }}>demo-social</Typography>
         </Typography>
         <Box
           width='300px'
@@ -43,17 +44,22 @@ export const AuthorizationForm = () => {
 
           </Button>
 
-          <Button color='secondary'
+          <Button sx={{ mt: 5 }} size="small" color='secondary' onClick={toggleSignMode}
           >
             Don't have an account? Sign up
 
           </Button>
-          <Button sx={{ mt: 5 }} variant='contained'>
-            <Link to="/">sign in</Link>
+          <Button variant='contained'>
+            sign in
           </Button>
         </Box>
       </Container>
 
     </>
   );
+};
+
+
+AuthorizationForm.propTypes = {
+  toggleSignMode: PropTypes.func
 };
