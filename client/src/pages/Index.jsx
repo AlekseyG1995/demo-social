@@ -1,10 +1,22 @@
-import React from 'react';
+import { RegistrationForm } from "../components/RegistrationForm";
+import React, { useState, useEffect } from 'react';
+import { AuthorizationForm } from "../components/AuthorizationForm";
+
+const Authorization = () => {
+  return (
+    <></>
+  )
+}
 
 const Index = () => {
+
+  const [isRegisrationMode, setIsRegisrationMode] = useState(true)
+
   return (
-    <div>
-      Index page
-    </div>
+    <>{isRegisrationMode ? <RegistrationForm /> : <AuthorizationForm />}
+
+    </>
+
   );
 };
 
