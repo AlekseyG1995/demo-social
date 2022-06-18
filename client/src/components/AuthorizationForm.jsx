@@ -11,13 +11,31 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
+  Alert,
+  Snackbar,
   Divider
 } from "@mui/material";
 import { Link } from 'react-router-dom';
 
 export const AuthorizationForm = ({ toggleSignMode }) => {
 
+  const [isOpenSnack, setIsOpenSnack] = useState(false)
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setIsOpenSnack(false)
+  }
 
+  const [authData, setAuthData] = useState({
+    username: '',
+    password: ''
+  })
+
+
+  useEffect(() => { // DEBUG
+    console.log('authData, ', authData);
+  }, [authData])
 
   return (
     <>
@@ -34,11 +52,24 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
             mx: 'auto'
 
           }}>
-          <TextField sx={{ mb: 1 }} id="username" autoFocus label="Username" />
-          <TextField sx={{ mb: 1 }} id="password" type='password' label="Password" />
+          <TextField
+            value={authData.username}
+            onChange={e => { setAuthData({ ...authData, username: e.target.value }) }}
+            sx={{ mb: 1 }}
+            autoFocus
+            label="Username"
+          />
+          <TextField
+            value={authData.password}
+            onChange={e => { setAuthData({ ...authData, password: e.target.value }) }}
+            sx={{ mb: 1 }}
+            type='password'
+            label="Password"
+          />
           <Button
             component="label"
             color="warning"
+            onClick={() => setIsOpenSnack(true)}
           >
             Forgot your password?
 
@@ -54,7 +85,11 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
           </Button>
         </Box>
       </Container>
-
+      <Snackbar open={isOpenSnack} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+         Ooops, it's not implemented yet)
+        </Alert>
+      </Snackbar>
     </>
   );
 };

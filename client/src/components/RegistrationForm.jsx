@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Typography,
@@ -17,7 +17,21 @@ import ContactMailIcon from '@mui/icons-material/ContactMail';
 // import BadgeIcon from '@mui/icons-material/Badge';
 
 export const RegistrationForm = ({ toggleSignMode }) => {
-  const [currentGender, setCurrentGender] = React.useState('male');
+
+ 
+
+  const [regData, setRegData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    birthday: '',
+    gender: 'male',
+    file: ''
+  })
+
+  useEffect(() => { // DEBUG
+    console.log('regData, ', regData);
+  }, [regData])
 
   return (
     <>
@@ -34,27 +48,56 @@ export const RegistrationForm = ({ toggleSignMode }) => {
             mx: 'auto'
 
           }}>
-          <FormControl>
-            <TextField sx={{ mb: 1 }} id="username" autoFocus label="Username" />
-            <TextField sx={{ mb: 1 }} id="email" type='email' label="Email" />
-            <TextField sx={{ mb: 1 }} id="password" type='password' label="Password" />
-            <TextField sx={{ mb: 1 }} id="birthday" defaultValue='' type='date' label="" />
-            <FormControl>
-              <FormLabel id="gender-radio-buttons">Gender</FormLabel>
-              <RadioGroup
-                row
-                defaultValue="male"
-                aria-labelledby="gender-radio-buttons"
-                name="gender-radio-buttons"
-                value={currentGender}
-                onChange={setCurrentGender}
-              >
-                <FormControlLabel value="male" control={<Radio />} label="Male" />
-                <FormControlLabel value="female" control={<Radio />} label="Female" />
-              </RadioGroup>
-            </FormControl>
 
+          <TextField
+            value={regData.username}
+            onChange={e => { setRegData({ ...regData, username: e.target.value }) }}
+            sx={{ mb: 1 }}
+            id="username"
+            autoFocus
+            label="Username"
+          />
+          <TextField
+            value={regData.email}
+            onChange={e => { setRegData({ ...regData, email: e.target.value }) }}
+            sx={{ mb: 1 }}
+            id="email"
+            type='email'
+            label="Email"
+          />
+          <TextField
+            value={regData.password}
+            onChange={e => { setRegData({ ...regData, password: e.target.value }) }}
+            sx={{ mb: 1 }}
+            id="password"
+            type='password'
+            label="Password"
+          />
+          <TextField
+            value={regData.birthday}
+            onChange={e => { setRegData({ ...regData, birthday: e.target.value }) }}
+            sx={{ mb: 1 }}
+            id="birthday"
+            type='date'
+            // placeholder='1'
+            label="" // BUG
+          />
+          <FormControl>
+            <FormLabel id="gender-radio-buttons">Gender</FormLabel>
+            <RadioGroup
+              row
+              defaultValue="male"
+              aria-labelledby="gender-radio-buttons"
+              name="gender-radio-buttons"
+              value={regData.gender}
+              onChange={e => { setRegData({ ...regData, gender: e.target.value }) }}
+            >
+              <FormControlLabel value="male" control={<Radio />} label="Male" />
+              <FormControlLabel value="female" control={<Radio />} label="Female" />
+            </RadioGroup>
           </FormControl>
+
+
           <Button
             // variant="contained"
             component="label"
@@ -62,6 +105,8 @@ export const RegistrationForm = ({ toggleSignMode }) => {
             Upload your avatar
             <input
               type="file"
+              value={regData.file}
+              onChange={e => { setRegData({ ...regData, file: e.target.value }) }}
               color='primary'
               hidden
             />
@@ -78,6 +123,7 @@ export const RegistrationForm = ({ toggleSignMode }) => {
         </Box>
       </Container>
 
+      
     </>
   )
 }
