@@ -14,13 +14,8 @@ const Error = () => {
       <Container>
         <Typography mt={'1'} textAlign='center' variant='h3'>Похоже, произошла ошибка...</Typography>
         <Box mt={3} textAlign={'center'}>
-          <Link to="/">
-            <Button sx={{
-              textDecorationLine: 'none' // BUG
-            }} variant="contained">Вернуться на главную</Button>
-          </Link>
+            <Button component={Link} to="/"  variant="contained">Вернуться на главную</Button>
         </Box>
-
 
       </Container>
     </div>

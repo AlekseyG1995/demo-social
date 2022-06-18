@@ -74,11 +74,11 @@ const Account = () => {
             />
           </Button>
 
-          <Typography>-CARD WITH UPLOAD-</Typography>
+          {/* <Typography>-CARD WITH UPLOAD-</Typography> */}
 
 
 
-          <Button variant='contained'>
+          <Button variant='contained' sx={{mt:5}}>
             Save changes
           </Button>
         </Box>
