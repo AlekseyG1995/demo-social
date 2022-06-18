@@ -8,7 +8,7 @@ import {
   Typography,
   Container,
   Link,
-  CssBaseline
+  CssBaseline,
 } from '@mui/material'
 import Footer from '../components/Footer';
 import AppBarMenu from '../components/AppBarMenu';
@@ -25,9 +25,14 @@ const App = () => {
         minHeight: '100vh',
       }}
     >
-      <AppBarMenu/>
-      <CssBaseline />
-      <Outlet />
+      <AppBarMenu />
+      <Box mt={5}>
+        <Container>
+          <Outlet />
+        </Container>
+      </Box>
+
+
       <Footer />
     </Box>
   );

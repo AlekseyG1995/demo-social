@@ -5,7 +5,6 @@ import {
   Button,
   TextField,
   Box,
-  Container,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -13,7 +12,8 @@ import {
   Radio,
   Alert,
   Snackbar,
-  Divider
+  Divider,
+  Container
 } from "@mui/material";
 
 const Account = () => {
@@ -32,17 +32,15 @@ const Account = () => {
 
   return (
     <div>
-      <Container sx={{ mt: 10 }}>
-        <Typography variant='h4' textAlign={'center'}>
-          Edit your account
-        </Typography>
+      <Typography variant='h4' textAlign={'center'}>
+        Edit your account
+      </Typography>
+      <Container maxWidth="xs">
         <Box
-          width='300px'
           mt={3}
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            mx: 'auto'
 
           }}>
           <TextField
@@ -78,7 +76,7 @@ const Account = () => {
 
 
 
-          <Button variant='contained' sx={{mt:5}}>
+          <Button variant='contained' sx={{ mt: 5 }}>
             Save changes
           </Button>
         </Box>

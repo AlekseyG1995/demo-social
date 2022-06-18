@@ -5,22 +5,19 @@ import {
   Button,
   Box
 } from "@mui/material";
-import { Container } from '@mui/system';
 import { Link } from 'react-router-dom';
 
 const Error = () => {
   return (
     <div>
-      <Container>
         <Typography mt={'1'} textAlign='center' variant='h3'>Похоже, произошла ошибка...</Typography>
         <Box mt={3} textAlign={'center'}>
-            <Button component={Link} to="/"  variant="contained">Вернуться на главную</Button>
-        </Box>
-
-      </Container>
+            <Button component={Link} to="/" variant="contained">Вернуться на главную</Button>
+        </Box>      
     </div>
   );
 };
 
+// 
 
 export default Error;

@@ -39,17 +39,15 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
 
   return (
     <>
-      <Container sx={{ mt: 10 }}>
-        <Typography variant='h4' textAlign={'center'}>
-          Welcome to <Typography variant='h4' component='span' sx={{ fontWeight: "bold" }}>demo-social</Typography>
-        </Typography>
+      <Typography variant='h4' textAlign={'center'}>
+        Welcome to <Typography variant='h4' component='span' sx={{ fontWeight: "bold" }}>demo-social</Typography>
+      </Typography>
+      <Container maxWidth="xs">
         <Box
-          width='300px'
           mt={3}
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            mx: 'auto'
 
           }}>
           <TextField
@@ -87,7 +85,7 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
       </Container>
       <Snackbar open={isOpenSnack} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
-         Ooops, it's not implemented yet)
+          Ooops, it's not implemented yet)
         </Alert>
       </Snackbar>
     </>

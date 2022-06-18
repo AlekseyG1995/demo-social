@@ -5,20 +5,20 @@ import {
   Button,
   TextField,
   Box,
-  Container,
   FormControl,
   FormControlLabel,
   FormLabel,
   RadioGroup,
   Radio,
-  Divider
+  Divider,
+  Container
 } from "@mui/material";
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 // import BadgeIcon from '@mui/icons-material/Badge';
 
 export const RegistrationForm = ({ toggleSignMode }) => {
 
- 
+
 
   const [regData, setRegData] = useState({
     username: '',
@@ -35,18 +35,15 @@ export const RegistrationForm = ({ toggleSignMode }) => {
 
   return (
     <>
-      <Container sx={{ mt: 10 }}>
-        <Typography variant='h4' textAlign={'center'}>
-          Sign up <Typography variant='h4' component={'span'} sx={{ fontWeight: "bold" }}>demo-social</Typography>
-        </Typography>
+      <Typography variant='h4' textAlign={'center'}>
+        Sign up <Typography variant='h4' component={'span'} sx={{ fontWeight: "bold" }}>demo-social</Typography>
+      </Typography>
+      <Container maxWidth="xs">
         <Box
-          width='300px'
           mt={3}
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            mx: 'auto'
-
           }}>
 
           <TextField
@@ -123,7 +120,6 @@ export const RegistrationForm = ({ toggleSignMode }) => {
         </Box>
       </Container>
 
-      
     </>
   )
 }
