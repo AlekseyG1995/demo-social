@@ -1,15 +1,7 @@
 import React from 'react';
-import PeopleCardItem from '../components/People/PeopleCardItem';
 import {
   Typography,
-  Button,
-  TextField,
   Box,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  RadioGroup,
-  Radio,
   Divider
 } from "@mui/material";
 import PeopleCardList from '../components/People/PeopleCardList';

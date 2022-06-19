@@ -1,20 +1,8 @@
 import React from 'react';
-import {
-  Outlet
-} from 'react-router-dom'
-
-import {
-  Box,
-  Typography,
-  Container,
-  Link,
-  CssBaseline,
-} from '@mui/material'
-import Footer from '../components/Footer';
+import { Outlet } from 'react-router-dom'
+import { Box, Container } from '@mui/material'
+import { Footer } from '../components/Footer';
 import AppBarMenu from '../components/AppBarMenu';
-
-
-
 
 const App = () => {
   return (
@@ -26,13 +14,11 @@ const App = () => {
       }}
     >
       <AppBarMenu />
-      <Box mt={5}>
+      <Box my={5}>
         <Container>
           <Outlet />
         </Container>
       </Box>
-
-
       <Footer />
     </Box>
   );

@@ -6,16 +6,10 @@ import {
   TextField,
   Box,
   Container,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  RadioGroup,
-  Radio,
   Alert,
   Snackbar,
-  Divider
+  Grid
 } from "@mui/material";
-import { Link } from 'react-router-dom';
 
 export const AuthorizationForm = ({ toggleSignMode }) => {
 
@@ -32,7 +26,6 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
     password: ''
   })
 
-
   useEffect(() => { // DEBUG
     console.log('authData, ', authData);
   }, [authData])
@@ -43,44 +36,52 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
         Welcome to <Typography variant='h4' component='span' sx={{ fontWeight: "bold" }}>demo-social</Typography>
       </Typography>
       <Container maxWidth="xs">
-        <Box
-          mt={3}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
+        <Box mt={3} component="form">
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <TextField
+                value={authData.username}
+                onChange={e => { setAuthData({ ...authData, username: e.target.value }) }}
+                sx={{ mb: 1 }}
+                autoFocus
+                fullWidth
+                label="Username"
+              />
+            </Grid>
 
-          }}>
-          <TextField
-            value={authData.username}
-            onChange={e => { setAuthData({ ...authData, username: e.target.value }) }}
-            sx={{ mb: 1 }}
-            autoFocus
-            label="Username"
-          />
-          <TextField
-            value={authData.password}
-            onChange={e => { setAuthData({ ...authData, password: e.target.value }) }}
-            sx={{ mb: 1 }}
-            type='password'
-            label="Password"
-          />
-          <Button
-            component="label"
-            color="warning"
-            onClick={() => setIsOpenSnack(true)}
-          >
-            Forgot your password?
+            <Grid item xs={12}>
+              <TextField
+                value={authData.password}
+                onChange={e => { setAuthData({ ...authData, password: e.target.value }) }}
+                sx={{ mb: 1 }}
+                fullWidth
+                type='password'
+                label="Password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                component="label"
+                fullWidth
+                color="warning"
+                onClick={() => setIsOpenSnack(true)}
+              >
+                Forgot your password?
+              </Button>
+            </Grid>
 
-          </Button>
-
-          <Button sx={{ mt: 5 }} size="small" color='secondary' onClick={toggleSignMode}
-          >
-            Don't have an account? Sign up
-
-          </Button>
-          <Button variant='contained'>
-            sign in
-          </Button>
+            <Grid item xs={12}>
+              <Button fullWidth sx={{ mt: 5 }} size="small" color='secondary' onClick={toggleSignMode}
+              >
+                Don't have an account? Sign up
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button fullWidth variant='contained'>
+                sign in
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </Container>
       <Snackbar open={isOpenSnack} autoHideDuration={6000} onClose={handleClose}>
@@ -91,7 +92,6 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
     </>
   );
 };
-
 
 AuthorizationForm.propTypes = {
   toggleSignMode: PropTypes.func

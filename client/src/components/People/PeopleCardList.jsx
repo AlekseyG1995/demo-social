@@ -29,8 +29,13 @@ const PeopleCardList = ({ people }) => {
 };
 
 PeopleCardList.propTypes = {
-  people: PropTypes.array
-};
+  people: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
+    avatar: PropTypes.string
+  }))
+}
 
 PeopleCardList.defaultProps = {
   people: []
