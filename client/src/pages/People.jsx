@@ -5,7 +5,7 @@ import {
   Box,
   Divider
 } from "@mui/material";
-import PeopleCardList from '../components/people/PeopleCardList';
+import PeopleCardList from '../components/People/PeopleCardList';
 import { signIn } from '../redux/actions/auth';
 
 const People = () => {
