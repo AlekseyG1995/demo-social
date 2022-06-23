@@ -13,30 +13,28 @@ const generateAccessJWT = (id, avatar) => {
   }
 
   console.log("[JWT] - generate : id = ", id, " img =  ", avatar)
-  return jwt.sign(payload, config.get('server.secretKey'), { expiresIn: "12h" })
+  return jwt.sign(payload, config.get("server.secretKey"), { expiresIn: "12h" })
 }
 
 class AuthController {
-
   async profile(req, res) {
     const data = await User.findById(req.jwtID)
     return res.json({
       username: data.username,
-      avatar: data.avatar
+      avatar: data.avatar,
     })
   }
 
   async getPrivateInfo(req, res) {
-
-    const data = await User.find({ _id: { "$ne": req.jwtID } })
-    console.log('data: ', data);
+    const data = await User.find({ _id: { $ne: req.jwtID } })
+    console.log("data: ", data)
 
     res.json({
-      privateData: data.map(item => {
+      privateData: data.map((item) => {
         return {
           username: item.username,
           birthday: new Date().getFullYear() - new Date(item.birthday).getFullYear(),
-          avatar: item.avatar
+          avatar: item.avatar,
         }
       }),
     })
@@ -84,11 +82,11 @@ class AuthController {
 
   async login(req, res) {
     try {
-      const { username = "", password = "" } = req.body
-      console.log('[LOGIN]', username);
-      const user = await User.findOne({ username })
+      const { email = "", password = "" } = req.body
+      console.log("[LOGIN]", email)
+      const user = await User.findOne({ email })
       if (!user) {
-        return res.status(400).json({ message: "This username not exists" })
+        return res.status(400).json({ message: "This email not exists" })
       }
       if (!bcrypt.compareSync(password, user.password)) {
         return res.status(400).json({ message: "Password isn't valid" })
