@@ -1,0 +1,9 @@
+{
+  "server": {
+    "port": 5005,
+    "secretKey": "KEY1234"
+  },
+  "dbConfig": {
+    "connectonString":"mongodb://localhost:27017"
+  }
+}
