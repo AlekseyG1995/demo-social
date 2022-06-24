@@ -59,6 +59,7 @@ export const RegistrationForm = ({ toggleSignMode }) => {
                 helperText={errors?.username?.message}
                 sx={{ mb: 1 }}
                 autoFocus
+                type="text"
                 label="Username"
               />
             </Grid>
@@ -117,20 +118,9 @@ export const RegistrationForm = ({ toggleSignMode }) => {
             <Grid item xs={12}>
               <FormControl>
                 <FormLabel id="gender-radio-buttons">Gender</FormLabel>
-                <RadioGroup
-                  row
-                  defaultValue="male"
-                  aria-labelledby="gender-radio-buttons"
-                  name="gender-radio-buttons"
-                  // value={regData.gender}
-                  // onChange={(e) => {
-                  // setRegData({ ...regData, gender: e.target.value })
-                  // }}
-
-                  {...register("gender")}
-                >
-                  <FormControlLabel value="male" control={<Radio />} label="Male" />
-                  <FormControlLabel value="female" control={<Radio />} label="Female" />
+                <RadioGroup row defaultValue="male" aria-labelledby="gender-radio-buttons" name="gender-radio-buttons">
+                  <FormControlLabel value="male" {...register("gender")} control={<Radio />} label="Male" />
+                  <FormControlLabel value="female" {...register("gender")} control={<Radio />} label="Female" />
                 </RadioGroup>
               </FormControl>
             </Grid>

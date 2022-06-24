@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import { Box, Avatar, IconButton, Typography, Card, CardContent } from "@mui/material/"
 
 const PeopleCardItem = ({ username, age, avatar }) => {
+  console.log("AVATAR", avatar)
   return (
     <Card>
       <CardContent>
@@ -11,12 +12,12 @@ const PeopleCardItem = ({ username, age, avatar }) => {
           <Typography flexGrow={1} variant="h5" component="div">
             {username}
           </Typography>
-          <IconButton disabled sx={{ p: 0 }}>
+          <IconButton size="large" disabled sx={{ p: 0, transform: "scale(1.4)" }}>
             <Avatar alt="Icon" src={avatar ? avatar : ""} />
           </IconButton>
         </Box>
         <Typography variant="body" color="text.secondary">
-          {age}
+          {age} years
         </Typography>
       </CardContent>
     </Card>

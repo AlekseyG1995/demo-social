@@ -1,8 +1,7 @@
 import { SET_ACCOUNT_DATA, SIGNIN, SIGNOUT } from "../consts"
 
 const initialState = {
-  isAuth: false,
-  // object(username,avatar)||null
+  isAuth: !!localStorage.getItem("token"),
   accountData: null,
 }
 
@@ -15,6 +14,7 @@ export const authReducer = (state = initialState, action) => {
     case SET_ACCOUNT_DATA:
       return {
         ...state,
+        isAuth: true,
         accountData: action.payload,
       }
 
