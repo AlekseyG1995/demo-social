@@ -1,25 +1,18 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react"
+import PropTypes from "prop-types"
 
-import {
-  Box,
-  Avatar,
-  IconButton,
-  Typography,
-  Card,
-  CardContent
-} from '@mui/material/'
+import { Box, Avatar, IconButton, Typography, Card, CardContent } from "@mui/material/"
 
-const PeopleCardItem = ({ name, age, avatar }) => {
+const PeopleCardItem = ({ username, age, avatar }) => {
   return (
     <Card>
       <CardContent>
-        <Box display='flex'>
+        <Box display="flex">
           <Typography flexGrow={1} variant="h5" component="div">
-            {name}
+            {username}
           </Typography>
           <IconButton disabled sx={{ p: 0 }}>
-            <Avatar alt='Icon' src={avatar ? avatar : ''} />
+            <Avatar alt="Icon" src={avatar ? avatar : ""} />
           </IconButton>
         </Box>
         <Typography variant="body" color="text.secondary">
@@ -27,18 +20,18 @@ const PeopleCardItem = ({ name, age, avatar }) => {
         </Typography>
       </CardContent>
     </Card>
-  );
-};
-
-PeopleCardItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  age: PropTypes.number.isRequired,
-  avatar: PropTypes.string
-};
-
-PeopleCardItem.defaultProps = {
-  avatar: ''
+  )
 }
 
-export default PeopleCardItem;
+PeopleCardItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  age: PropTypes.number.isRequired,
+  avatar: PropTypes.string,
+}
+
+PeopleCardItem.defaultProps = {
+  avatar: "",
+}
+
+export default PeopleCardItem
