@@ -1,9 +1,11 @@
 {
   "server": {
     "port": 5005,
-    "secretKey": "KEY1234"
+    "secretKey": "KEY1234",
+    "staticFolderName": "storage",
+    "storageURL": "http://localhost:5005/static/"
   },
   "dbConfig": {
-    "connectonString":"mongodb://localhost:27017"
+    "connectonString":"mongodb://localhost:27017/miniSocial"
   }
 }
