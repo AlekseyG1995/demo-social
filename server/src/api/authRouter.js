@@ -8,23 +8,15 @@ import { authMiddleware } from "../middleware/auth.middleware.js"
 import { authController } from "./authController.js"
 export const router = new Router()
 
-router.get("/data", authMiddleware, authController.getPrivateInfo)
-router.get("/profile", authMiddleware, authController.profile)
-
-router.put(
-  "/account",
-  [
+const middlewares = {
+  "get:/data": authMiddleware,
+  "get:/profile": authMiddleware,
+  "put:/account": [
     multer({ limits: { fileSize: 5242880 } }).single("file"), // 5MB file limit
     check("username", "Username cannot be empty ").trim().notEmpty(),
-    // check("password", "Password must be more than 8 and less than 32 characters").isLength({ min: 8, max: 32 }),
+    authMiddleware,
   ],
-  authMiddleware,
-  authController.update
-)
-
-router.post(
-  "/registration",
-  [
+  "post:/registration": [
     multer({ limits: { fileSize: 5242880 } }).single("file"), // 5MB file limit
     check("username", "Username cannot be empty ").trim().notEmpty(),
     check("password", "Password must be more than 8 and less than 32 characters").isLength({ min: 8, max: 32 }),
@@ -32,7 +24,11 @@ router.post(
     check("gender", "Gender Error").isIn(["male", "female"]),
     check("birthday", "Date is not valid").isDate(),
   ],
-  authController.registration
-)
+  "post:/login": multer().none(),
+}
 
-router.post("/login", multer().none(), authController.login)
+router.get("/data", middlewares["get:/data"], authController.getPrivateInfo)
+router.get("/profile", middlewares["get:/profile"], authController.profile)
+router.put("/account", middlewares["put:/account"], authController.update)
+router.post("/registration", middlewares["post:/registration"], authController.registration)
+router.post("/login", middlewares["post:/login"], authController.login)

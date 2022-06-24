@@ -9,12 +9,12 @@ export const authMiddleware = (req, res, next) => {
 
   try {
     const token = req.headers.authorization?.split(" ")[1]
-    const { id } = jwt.verify(token, config.get('server.secretKey'))
+    console.log("DEBUG ", token)
+    const { id } = jwt.verify(token, config.get("server.secretKey"))
     req.jwtID = id
     next()
   } catch (e) {
     console.log("[JWT] AuthMiddleware: JWT isn't valid")
-    res.status(403).json({ message: "Access denied!" })
+    res.status(403).json({ message: "Access denied!", e })
   }
-
 }

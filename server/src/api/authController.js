@@ -21,7 +21,7 @@ class AuthController {
     const data = await User.findById(req.jwtID)
     return res.json({
       username: data.username,
-      avatar: data.avatar,
+      avatar: config.get("server.storageURL") + data.avatar,
     })
   }
 
@@ -30,11 +30,12 @@ class AuthController {
     console.log("data: ", data)
 
     res.json({
-      privateData: data.map((item) => {
+      people: data.map((item) => {
         return {
+          id: item._id,
           username: item.username,
-          birthday: new Date().getFullYear() - new Date(item.birthday).getFullYear(),
-          avatar: item.avatar,
+          age: new Date().getFullYear() - new Date(item.birthday).getFullYear(),
+          avatar: config.get("server.storageURL") + item.avatar,
         }
       }),
     })
@@ -58,7 +59,7 @@ class AuthController {
 
       if (req.file) {
         const { mimetype, originalname, buffer } = req.file
-        if (mimetype !== "image/jpeg") {
+        if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
           throw new Error("mimetype file is not correct")
         }
         const ext = originalname.split(".").pop()
@@ -117,13 +118,13 @@ class AuthController {
         objChanges["password"] = bcrypt.hashSync(password, 7)
       } else {
         if (password !== "") {
-          throw new Error("mimetype file is not correct")
+          throw new Error("password is not correct")
         }
       }
 
       if (req.file) {
         const { mimetype, originalname, buffer } = req.file
-        if (mimetype !== "image/jpeg") {
+        if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
           throw new Error("mimetype file is not correct")
         }
         const ext = originalname.split(".").pop()
