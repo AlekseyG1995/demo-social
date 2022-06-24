@@ -1,6 +1,6 @@
 import axios from "axios"
 import { setPeople } from "../redux/actions/appData"
-import { setAccountData, signIn } from "../redux/actions/auth"
+import { setAccountData, signIn, signOut } from "../redux/actions/auth"
 
 class AuthApi {
   #host
@@ -52,8 +52,11 @@ class AuthApi {
           })
           dispatch(setAccountData(res.data))
           console.log("[API actions] = profile OK", res)
+        } else {
+          dispatch(signOut())
         }
       } catch (e) {
+        dispatch(signOut())
         console.log("[API actions] = profile ERR", e)
       }
     }
