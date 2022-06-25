@@ -1,36 +1,35 @@
-import colors from "colors"
+import colors from 'colors'
 
 const mainConfig = {
-  "info": true,
-  "debug": true,
-  "warning": true,
-  "error": true,
-  "fatal": true
+  'info': true,
+  'debug': true,
+  'warning': true,
+  'error': true,
+  'fatal': true
 }
 
 const consoleConfig = {
-  "info": {
-    "color": colors.cyan,
-    "enabled": true
+  'info': {
+    'color': colors.cyan,
+    'enabled': true
   },
-  "debug": {
-    "color": colors.bgBlue,
-    "enabled": true
+  'debug': {
+    'color': colors.bgBlue,
+    'enabled': true
   },
-  "warning": {
-    "color": colors.bgWhite,
-    "enabled": true
+  'warning': {
+    'color': colors.bgWhite,
+    'enabled': true
   },
-  "error": {
-    "color": colors.bgRed,
-    "enabled": true
+  'error': {
+    'color': colors.bgRed,
+    'enabled': true
   },
-  "fatal": {
-    "color": colors.red.bold,
-    "enabled": true
+  'fatal': {
+    'color': colors.red.bold,
+    'enabled': true
   },
 }
-
 
 class Logger {
   constructor(colors, targets = []) {
@@ -67,7 +66,6 @@ class Logger {
   }
 }
 
-
 class ConsoleTarget {
   constructor(colors) {
     this.colors = colors
@@ -75,19 +73,21 @@ class ConsoleTarget {
 
   log(level, logData) {
     if (this.colors[level]) {
-      this.colors[level].enabled && console.log(this.colors[level].color(logData))
-    }
-    else {
+      if (this.colors[level].enabled) {
+        console.log(this.colors[level].color(logData))
+      }
+    } else {
       throw new Error('Unknown level Log!')
     }
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 class FileTarget {
   constructor(filename) {
   }
 
-  // code FS write to file  
+  // code FS write to file
   log(level, logData) {
     console.log(`filename: ${this.filename} :`, logData)
   }
