@@ -13,6 +13,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { authApi } from '../api/actions'
 import { useDispatch } from 'react-redux'
+import { validationRules } from '../utils/validationRules'
 
 export const AuthorizationForm = ({ toggleSignMode }) => {
   const [isOpenSnack, setIsOpenSnack] = useState(false)
@@ -24,7 +25,6 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
   }
 
   const dispatch = useDispatch()
-
 
   const {
     register,
@@ -60,12 +60,10 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
                 //   setAuthData({ ...authData, username: e.target.value })
                 // }}
                 {...register('email', {
-                  required: 'email must be not empty',
+                  required: validationRules.email.required,
                   pattern: {
-                    value:
-                      // eslint-disable-next-line max-len
-                      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Email is not valid',
+                    value: validationRules.email.pattern,
+                    message: validationRules.email.patternError,
                   },
                 })}
                 error={!!errors?.email}
@@ -86,14 +84,14 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
                 //   setAuthData({ ...authData, password: e.target.value })
                 // }}
                 {...register('password', {
-                  required: 'password must be not empty',
+                  required: validationRules.password.required,
                   minLength: {
                     value: 8,
-                    message: 'password must be at least 8 characters',
+                    message: validationRules.password.minValue,
                   },
                   maxLength: {
                     value: 32,
-                    message: 'password must be at maximum 32 characters',
+                    message: validationRules.password.maxValue,
                   },
                 })}
                 error={!!errors?.password}
@@ -144,7 +142,7 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
         autoHideDuration={6000}
         onClose={handleClose}>
         <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
-          Ooops, it's not implemented yet)
+          Ooops, it&apos;s not implemented yet)
         </Alert>
       </Snackbar>
     </>

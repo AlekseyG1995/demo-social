@@ -11,11 +11,11 @@ const Error = () => {
   return (
     <div>
       <Typography mt={'1'} textAlign='center' variant='h3'>
-        Похоже, произошла ошибка...
+        An error has occurred
       </Typography>
       <Box mt={3} textAlign={'center'}>
         <Button
-          component={Link} to="/" variant="contained">Вернуться на главную
+          component={Link} to="/" variant="contained">Go back to the main page
         </Button>
       </Box>
     </div>

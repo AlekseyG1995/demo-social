@@ -15,9 +15,9 @@ import ContactMailIcon from '@mui/icons-material/ContactMail'
 import { useForm } from 'react-hook-form'
 import { authApi } from '../api/actions'
 import { useDispatch } from 'react-redux'
+import { validationRules } from '../utils/validationRules'
 
 export const RegistrationForm = ({ toggleSignMode }) => {
-
   const dispatch = useDispatch()
 
   const {
@@ -52,7 +52,7 @@ export const RegistrationForm = ({ toggleSignMode }) => {
               <TextField
                 fullWidth
                 {...register('username', {
-                  required: 'username must be not empty',
+                  required: validationRules.username.required,
                 })}
                 error={!!errors?.username}
                 helperText={errors?.username?.message}
@@ -65,12 +65,10 @@ export const RegistrationForm = ({ toggleSignMode }) => {
             <Grid item xs={12}>
               <TextField
                 {...register('email', {
-                  required: 'email must be not empty',
+                  required: validationRules.email.required,
                   pattern: {
-                    value:
-                      // eslint-disable-next-line max-len
-                      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Email is not valid',
+                    value: validationRules.email.pattern,
+                    message: validationRules.email.patternError,
                   },
                 })}
                 error={!!errors?.email}
@@ -84,14 +82,14 @@ export const RegistrationForm = ({ toggleSignMode }) => {
             <Grid item xs={12}>
               <TextField
                 {...register('password', {
-                  required: 'password must be not empty',
+                  required: validationRules.password.required,
                   minLength: {
                     value: 8,
-                    message: 'password must be at least 8 characters',
+                    message: validationRules.password.minValue,
                   },
                   maxLength: {
                     value: 32,
-                    message: 'password must be at maximum 32 characters',
+                    message: validationRules.password.maxValue,
                   },
                 })}
                 error={!!errors?.password}
@@ -105,7 +103,7 @@ export const RegistrationForm = ({ toggleSignMode }) => {
             <Grid item xs={12}>
               <TextField
                 {...register('birthday', {
-                  required: 'DOB must be not empty',
+                  required: validationRules.DOB.required,
                 })}
                 error={!!errors?.birthday}
                 helperText={errors?.birthday?.message}

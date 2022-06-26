@@ -9,6 +9,7 @@ import {
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { authApi } from '../api/actions'
+import { validationRules } from '../utils/validationRules'
 
 const Account = () => {
   const dispatch = useDispatch()
@@ -42,7 +43,7 @@ const Account = () => {
             <Grid item xs={12}>
               <TextField
                 {...register('username', {
-                  required: 'username must be not empty',
+                  required: validationRules.username.required,
                 })}
                 error={!!errors?.username}
                 helperText={errors?.username?.message}
@@ -55,14 +56,14 @@ const Account = () => {
             <Grid item xs={12}>
               <TextField
                 {...register('password', {
-                  required: 'password must be not empty',
+                  required: validationRules.password.required,
                   minLength: {
                     value: 8,
-                    message: 'password must be at least 8 characters',
+                    message: validationRules.password.minValue,
                   },
                   maxLength: {
                     value: 32,
-                    message: 'password must be at maximum 32 characters',
+                    message: validationRules.password.maxValue,
                   },
                 })}
                 error={!!errors?.password}

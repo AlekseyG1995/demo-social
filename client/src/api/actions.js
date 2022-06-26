@@ -15,7 +15,6 @@ class AuthApi {
           `${this.#host}/api/registration`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
-        localStorage.setItem('token', res?.data?.token)
         console.log('[API actions] = registration OK', res)
         alert('registration sucsessful!')
       } catch (e) {
