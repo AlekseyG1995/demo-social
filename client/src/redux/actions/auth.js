@@ -1,8 +1,8 @@
-import { SIGNOUT, SIGNIN, SET_ACCOUNT_DATA } from "../consts"
+import { SIGNOUT, SIGNIN, SET_ACCOUNT_DATA } from '../consts'
 
 export const signIn = () => ({ type: SIGNIN })
 export const signOut = () => {
-  localStorage.removeItem("token")
+  localStorage.removeItem('token')
   return { type: SIGNOUT }
 }
 

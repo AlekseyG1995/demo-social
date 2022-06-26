@@ -1,7 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Typography, Grid, Box } from "@mui/material"
-import PeopleCardItem from "./PeopleCardItem"
+import PropTypes from 'prop-types'
+import { Typography, Grid, Box } from '@mui/material'
+import PeopleCardItem from './PeopleCardItem'
 
 const PeopleCardList = ({ people }) => {
   return (
@@ -10,7 +9,12 @@ const PeopleCardList = ({ people }) => {
         <Grid container rowSpacing={3} columnSpacing={10}>
           {people.map((item) => (
             <Grid key={item.id} item xs={12} sm={6} md={4}>
-              <PeopleCardItem id={item.id} username={item.username} age={item.age} avatar={item.avatar} />
+              <PeopleCardItem
+                id={item.id}
+                username={item.username}
+                age={item.age}
+                avatar={item.avatar}
+              />
             </Grid>
           ))}
         </Grid>

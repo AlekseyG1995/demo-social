@@ -1,10 +1,15 @@
-import * as React from "react"
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 
-import { Box, Avatar, IconButton, Typography, Card, CardContent } from "@mui/material/"
+import {
+  Box,
+  Avatar,
+  IconButton,
+  Typography,
+  Card,
+  CardContent
+} from '@mui/material/'
 
 const PeopleCardItem = ({ username, age, avatar }) => {
-  console.log("AVATAR", avatar)
   return (
     <Card>
       <CardContent>
@@ -12,8 +17,12 @@ const PeopleCardItem = ({ username, age, avatar }) => {
           <Typography flexGrow={1} variant="h5" component="div">
             {username}
           </Typography>
-          <IconButton size="large" disabled sx={{ p: 0, transform: "scale(1.4)" }}>
-            <Avatar alt="Icon" src={avatar ? avatar : ""} />
+          <IconButton
+            size="large"
+            disabled
+            sx={{ p: 0, transform: 'scale(1.4)' }}
+          >
+            <Avatar alt="Icon" src={avatar ? avatar : ''} />
           </IconButton>
         </Box>
         <Typography variant="body" color="text.secondary">
@@ -32,7 +41,7 @@ PeopleCardItem.propTypes = {
 }
 
 PeopleCardItem.defaultProps = {
-  avatar: "",
+  avatar: '',
 }
 
 export default PeopleCardItem

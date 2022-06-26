@@ -1,20 +1,20 @@
-import jwt from "jsonwebtoken"
-import config from "config"
-// import { SECRET_KEY } from "../../_config.js"
+import jwt from 'jsonwebtoken'
+import config from 'config'
+import { logger } from '../utils/logger.js'
 
 export const authMiddleware = (req, res, next) => {
-  if (req.method === "OPTIONS") {
+  if (req.method === 'OPTIONS') {
     next()
   }
 
   try {
-    const token = req.headers.authorization?.split(" ")[1]
-    console.log("DEBUG ", token)
-    const { id } = jwt.verify(token, config.get("server.secretKey"))
+    const token = req.headers.authorization?.split(' ')[1]
+    // logger.debug("[JWT] AuthMiddleware: ", token)
+    const { id } = jwt.verify(token, config.get('server.secretKey'))
     req.jwtID = id
     next()
   } catch (e) {
-    console.log("[JWT] AuthMiddleware: JWT isn't valid")
-    res.status(403).json({ message: "Access denied!", e })
+    logger.debug('[JWT] AuthMiddleware: JWT isn\'t valid')
+    return res.status(403).json({ message: 'Access denied!', e })
   }
 }
