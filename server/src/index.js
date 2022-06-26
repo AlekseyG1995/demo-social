@@ -14,17 +14,22 @@ app.use(corsMiddleware)
 app.use(express.json())
 app.use('/api', router)
 
-const PORT = config.get('server.port')
+const PORT = process.env.PORT || config.get('server.port')
 app.listen(PORT, () => {
   logger.info(`[Express] Server started on port ${PORT}`)
 })
 
+const connectionSrtingDB =
+  process.env.DB_STRING || config.get('dbConfig.connectonString')
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(config.get('dbConfig.connectonString'))
+    await mongoose.connect(connectionSrtingDB)
     logger.info('[MongoDB] Connect to DataBase')
   } catch (e) {
     logger.error(e)
   }
 }
 connectDB()
+logger.debug('[index.js] DB: ' + connectionSrtingDB)
+logger.debug('[index.js] currentPORT: ' + PORT)
