@@ -21,7 +21,7 @@ class AuthController {
     }
   }
 
-  async getPrivateInfo(req, res) {
+  async people(req, res) {
     try {
       const data = await User.find({ _id: { $ne: req.jwtID } })
       // logger.debug('[api-getData]', data)
