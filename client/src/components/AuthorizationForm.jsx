@@ -1,16 +1,23 @@
-import React, { useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import { Typography, Button, TextField, Box, Container, Alert, Snackbar, Grid } from "@mui/material"
-import { useForm } from "react-hook-form"
-import axios from "axios"
-import useRequest from "../hooks/useRequest"
-import { authApi } from "../api/actions"
-import { useDispatch } from "react-redux"
+import { useState } from 'react'
+import PropTypes from 'prop-types'
+import {
+  Typography,
+  Button,
+  TextField,
+  Box,
+  Container,
+  Alert,
+  Snackbar,
+  Grid
+} from '@mui/material'
+import { useForm } from 'react-hook-form'
+import { authApi } from '../api/actions'
+import { useDispatch } from 'react-redux'
 
 export const AuthorizationForm = ({ toggleSignMode }) => {
   const [isOpenSnack, setIsOpenSnack] = useState(false)
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return
     }
     setIsOpenSnack(false)
@@ -18,21 +25,13 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
 
   const dispatch = useDispatch()
 
-  // const [authData, setAuthData] = useState({
-  //   username: "",
-  //   password: "",
-  // })
 
-  // useEffect(() => {
-  //   // DEBUG
-  //   console.log("authData, ", authData)
-  // }, [authData])
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    reset,
-  } = useForm({ mode: "onChange" })
+    // reset,
+  } = useForm({ mode: 'onChange' })
 
   const onSubmit = async (formData) => {
     dispatch(authApi.login(formData))
@@ -40,14 +39,19 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
 
   return (
     <>
-      <Typography variant="h4" textAlign={"center"}>
-        Welcome to{" "}
-        <Typography variant="h4" component="span" sx={{ fontWeight: "bold" }}>
+      <Typography variant="h4" textAlign={'center'}>
+        Welcome to{' '}
+        <Typography variant="h4" component="span" sx={{ fontWeight: 'bold' }}>
           demo-social
         </Typography>
       </Typography>
       <Container maxWidth="xs">
-        <Box mt={3} component="form" encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
+        <Box
+          mt={3}
+          component="form"
+          encType="multipart/form-data"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <TextField
@@ -55,12 +59,13 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
                 // onChange={(e) => {
                 //   setAuthData({ ...authData, username: e.target.value })
                 // }}
-                {...register("email", {
-                  required: "email must be not empty",
+                {...register('email', {
+                  required: 'email must be not empty',
                   pattern: {
                     value:
+                      // eslint-disable-next-line max-len
                       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: "Email is not valid",
+                    message: 'Email is not valid',
                   },
                 })}
                 error={!!errors?.email}
@@ -80,15 +85,15 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
                 // onChange={(e) => {
                 //   setAuthData({ ...authData, password: e.target.value })
                 // }}
-                {...register("password", {
-                  required: "password must be not empty",
+                {...register('password', {
+                  required: 'password must be not empty',
                   minLength: {
                     value: 8,
-                    message: "password must be at least 8 characters",
+                    message: 'password must be at least 8 characters',
                   },
                   maxLength: {
                     value: 32,
-                    message: "password must be at maximum 32 characters",
+                    message: 'password must be at maximum 32 characters',
                   },
                 })}
                 error={!!errors?.password}
@@ -100,18 +105,32 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button component="label" fullWidth color="warning" onClick={() => setIsOpenSnack(true)}>
+              <Button
+                component="label"
+                fullWidth color="warning"
+                onClick={() => setIsOpenSnack(true)}
+              >
                 Forgot your password?
               </Button>
             </Grid>
 
             <Grid item xs={12}>
-              <Button fullWidth sx={{ mt: 5 }} size="small" color="secondary" onClick={toggleSignMode}>
-                Don't have an account? Sign up
+              <Button
+                fullWidth
+                sx={{ mt: 5 }}
+                size="small"
+                color="secondary"
+                onClick={toggleSignMode}
+              >
+                {`Don't have an account? Sign up`}
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <Button disabled={!isValid} type="submit" fullWidth variant="contained">
+              <Button
+                disabled={!isValid}
+                type="submit"
+                fullWidth
+                variant="contained">
                 sign in
               </Button>
             </Grid>
@@ -119,8 +138,12 @@ export const AuthorizationForm = ({ toggleSignMode }) => {
         </Box>
       </Container>
 
-      <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "center" }} open={isOpenSnack} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+
+      <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={isOpenSnack}
+        autoHideDuration={6000}
+        onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           Ooops, it's not implemented yet)
         </Alert>
       </Snackbar>

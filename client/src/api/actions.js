@@ -1,26 +1,27 @@
-import axios from "axios"
-import { setPeople } from "../redux/actions/appData"
-import { setAccountData, signIn, signOut } from "../redux/actions/auth"
+import axios from 'axios'
+import { setPeople } from '../redux/actions/appData'
+import { setAccountData, signIn, signOut } from '../redux/actions/auth'
 
 class AuthApi {
   #host
-  constructor(host = "http://localhost:5005") {
+  constructor(host = 'http://localhost:5005') {
     this.#host = host
   }
 
   registraton(formData) {
     return async (dispatch) => {
       try {
-        const res = await axios.post(`${this.#host}/api/registration`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+        const res = await axios.post(
+          `${this.#host}/api/registration`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
         })
-        localStorage.setItem("token", res?.data?.token)
-        console.log("[API actions] = registration OK", res)
-        alert("registration sucsessful!")
+        localStorage.setItem('token', res?.data?.token)
+        console.log('[API actions] = registration OK', res)
+        alert('registration sucsessful!')
       } catch (e) {
-        console.log("[API actions] = registration ERR", e)
+        console.log('[API actions] = registration ERR', e)
         const expectedMsg = e?.response?.data?.message
-        alert(expectedMsg ? expectedMsg : "error")
+        alert(expectedMsg ? expectedMsg : 'error')
       }
     }
   }
@@ -29,15 +30,15 @@ class AuthApi {
     return async (dispatch) => {
       try {
         const res = await axios.post(`${this.#host}/api/login`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { 'Content-Type': 'multipart/form-data' },
         })
-        localStorage.setItem("token", res?.data?.token)
+        localStorage.setItem('token', res?.data?.token)
         dispatch(signIn())
-        console.log("[API actions] = login OK")
+        console.log('[API actions] = login OK')
       } catch (e) {
-        console.log("[API actions] = login ERR")
+        console.log('[API actions] = login ERR')
         const expectedMsg = e?.response?.data?.message
-        alert(expectedMsg ? expectedMsg : "error")
+        alert(expectedMsg ? expectedMsg : 'error')
       }
     }
   }
@@ -45,19 +46,19 @@ class AuthApi {
   profile() {
     return async (dispatch) => {
       try {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem('token')
         if (token) {
           const res = await axios.get(`${this.#host}/api/profile`, {
             headers: { Authorization: `Bearer ${token}` },
           })
           dispatch(setAccountData(res.data))
-          console.log("[API actions] = profile OK", res)
+          console.log('[API actions] = profile OK', res)
         } else {
           dispatch(signOut())
         }
       } catch (e) {
         dispatch(signOut())
-        console.log("[API actions] = profile ERR", e)
+        console.log('[API actions] = profile ERR', e)
       }
     }
   }
@@ -65,14 +66,14 @@ class AuthApi {
   getData() {
     return async (dispatch) => {
       try {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem('token')
         const res = await axios.get(`${this.#host}/api/data`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         dispatch(setPeople(res.data.people))
-        console.log("[API actions] = getData OK", res)
+        console.log('[API actions] = getData OK', res)
       } catch (e) {
-        console.log("[API actions] = getData ERR", e)
+        console.log('[API actions] = getData ERR', e)
         // const expectedMsg = e?.response?.data?.message
         // alert(expectedMsg ? expectedMsg : "error")
       }
@@ -82,18 +83,19 @@ class AuthApi {
   update(formData) {
     return async (dispatch) => {
       try {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem('token')
         const res = await axios.put(`${this.#host}/api/account`, formData, {
-          headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
+          },
         })
-        // localStorage.setItem("token", res?.data?.token)
-        // dispatch(signIn())
-        console.log("[API actions] = updata OK", res)
-        alert("update successful")
+        console.log('[API actions] = updata OK', res)
+        alert('update successful')
       } catch (e) {
-        console.log("[API actions] = udpate ERR")
+        console.log('[API actions] = udpate ERR')
         const expectedMsg = e?.response?.data?.message
-        alert(expectedMsg ? expectedMsg : "error")
+        alert(expectedMsg ? expectedMsg : 'error')
       }
     }
   }

@@ -1,7 +1,7 @@
-import { SET_ACCOUNT_DATA, SIGNIN, SIGNOUT } from "../consts"
+import { SET_ACCOUNT_DATA, SIGNIN, SIGNOUT } from '../consts'
 
 const initialState = {
-  isAuth: !!localStorage.getItem("token"),
+  isAuth: !!localStorage.getItem('token'),
   accountData: null,
 }
 

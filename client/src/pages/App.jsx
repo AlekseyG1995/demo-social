@@ -1,18 +1,16 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom'
 import { Box, Container } from '@mui/material'
-import { Footer } from '../components/Footer';
-import AppBarMenu from '../components/AppBarMenu';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { cyan, deepPurple } from '@mui/material/colors';
-
+import { Footer } from '../components/Footer';
+import AppBarMenu from '../components/AppBarMenu';
 
 const theme = createTheme({
   palette: {
     primary: {
       main: cyan[700],
     },
-    secondary:{
+    secondary: {
       main: deepPurple[500]
     }
   },

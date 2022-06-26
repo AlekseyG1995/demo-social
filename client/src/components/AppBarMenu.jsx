@@ -1,17 +1,24 @@
-import * as React from "react"
-
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Tooltip, MenuItem, Button } from "@mui/material"
-import InterestsIcon from "@mui/icons-material/Interests"
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
-import { authApi } from "../api/actions"
-import { signOut } from "../redux/actions/auth"
-import { Link, useNavigate } from "react-router-dom"
-
-const settings = ["Account", "Logout"]
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Tooltip,
+  MenuItem
+} from '@mui/material'
+import InterestsIcon from '@mui/icons-material/Interests'
+import { useDispatch, useSelector } from 'react-redux'
+import { authApi } from '../api/actions'
+import { signOut } from '../redux/actions/auth'
 
 const AppBarMenu = () => {
-  const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const [anchorElUser, setAnchorElUser] = useState(null)
 
   const handleOpenUserMenu = (e) => {
     setAnchorElUser(e.currentTarget)
@@ -22,9 +29,7 @@ const AppBarMenu = () => {
   }
 
   const { isAuth, accountData } = useSelector((state) => state.auth)
-  console.log("[useSelector TEST] ", isAuth)
   const dispatch = useDispatch()
-
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -37,7 +42,7 @@ const AppBarMenu = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: "flex", flexGrow: 1 }}>
+          <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <InterestsIcon fontSize="large" />
             <Typography
               variant="h6"
@@ -46,12 +51,12 @@ const AppBarMenu = () => {
               // href="/"
               sx={{
                 ml: 2,
-                display: "flex",
-                fontFamily: "monospace",
+                display: 'flex',
+                fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: ".rem",
-                color: "inherit",
-                textDecoration: "none",
+                letterSpacing: '.rem',
+                color: 'inherit',
+                textDecoration: 'none',
               }}
             >
               DEMO-SOCIAL
@@ -61,36 +66,42 @@ const AppBarMenu = () => {
           {isAuth && (
             <>
               <Box mr={3}>
-                <Typography sx={{ color: "white" }} component={Link} to="/people">
+                <Typography
+                  sx={{ color: 'white' }}
+                  component={Link}
+                  to="/people"
+                >
                   <Typography>People</Typography>
                 </Typography>
               </Box>
 
               <Box mr={1}>
-                <Typography>{accountData?.username || ""}</Typography>
+                <Typography>{accountData?.username || ''}</Typography>
               </Box>
 
               <Box>
                 {/* <Typography>{accountData.username}</Typography> */}
                 <Tooltip title="Profile">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Avatar" src={accountData?.avatar ? accountData?.avatar : ""}></Avatar>
-                    {/* if Auth */}
-                    {/* <Avatar alt="Avatar" src="/static/images/avatar/2.jpg" /> */}
+                    <Avatar
+                      alt="Avatar"
+                      src={accountData?.avatar ? accountData?.avatar : ''}>
+
+                    </Avatar>
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  sx={{ mt: "45px" }}
+                  sx={{ mt: '45px' }}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
                   anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
@@ -99,14 +110,13 @@ const AppBarMenu = () => {
                     key="account"
                     onClick={() => {
                       handleCloseUserMenu()
-
-                      navigate("/account", { replace: true })
+                      navigate('/account', { replace: true })
                     }}
                   >
                     <Typography textAlign="center">account</Typography>
                   </MenuItem>
                   <MenuItem
-                    key={"logout"}
+                    key={'logout'}
                     onClick={() => {
                       handleCloseUserMenu()
                       dispatch(signOut())

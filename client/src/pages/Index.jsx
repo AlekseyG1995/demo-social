@@ -1,7 +1,7 @@
-import { RegistrationForm } from "../components/RegistrationForm";
 import React from 'react';
-import { AuthorizationForm } from "../components/AuthorizationForm";
-import { useToggle } from "../hooks/useToggle";
+import { useToggle } from '../hooks/useToggle';
+import { RegistrationForm } from '../components/RegistrationForm';
+import { AuthorizationForm } from '../components/AuthorizationForm';
 
 const Index = () => {
   const [signMode, toggleSignMode] = useToggle(true)

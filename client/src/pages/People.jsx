@@ -1,10 +1,9 @@
-import React from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { Typography, Box, Divider } from "@mui/material"
-import PeopleCardList from "../components/People/PeopleCardList"
-import { signIn } from "../redux/actions/auth"
-import { useEffect } from "react"
-import { authApi } from "../api/actions"
+import React, {useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Typography, Box, Divider } from '@mui/material'
+import PeopleCardList from '../components/People/PeopleCardList'
+// import { signIn } from "../redux/actions/auth"
+import { authApi } from '../api/actions'
 
 const People = () => {
   const dataPeople = useSelector((state) => state.data.people)
