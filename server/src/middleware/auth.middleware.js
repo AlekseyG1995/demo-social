@@ -14,7 +14,7 @@ export const authMiddleware = (req, res, next) => {
     req.jwtID = id
     next()
   } catch (e) {
-    logger.warning('[JWT] AuthMiddleware: JWT isn\'t valid')
-    res.status(403).json({ message: 'Access denied!', e })
+    logger.debug('[JWT] AuthMiddleware: JWT isn\'t valid')
+    return res.status(403).json({ message: 'Access denied!', e })
   }
 }

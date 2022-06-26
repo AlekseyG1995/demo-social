@@ -6,14 +6,14 @@ import { authController } from './authController.js'
 export const router = new Router()
 
 const middlewares = {
-  'get:/data': authMiddleware,
-  'get:/profile': authMiddleware,
-  'put:/account': [
+  'data': authMiddleware,
+  'profile': authMiddleware,
+  'account': [
     multer({ limits: { fileSize: 5242880 } }).single('file'), // 5MB file limit
     check('username', 'Username cannot be empty ').trim().notEmpty(),
     authMiddleware,
   ],
-  'post:/registration': [
+  'registration': [
     multer({ limits: { fileSize: 5242880 } }).single('file'), // 5MB file limit
     check('username', 'Username cannot be empty ').trim().notEmpty(),
     check(
@@ -24,15 +24,15 @@ const middlewares = {
     check('gender', 'Gender Error').isIn(['male', 'female']),
     check('birthday', 'Date is not valid').isDate(),
   ],
-  'post:/login': multer().none(),
+  'login': multer().none(),
 }
 
-router.get('/data', middlewares['get:/data'], authController.getPrivateInfo)
-router.get('/profile', middlewares['get:/profile'], authController.profile)
-router.put('/account', middlewares['put:/account'], authController.update)
+router.get('/data', middlewares['data'], authController.getPrivateInfo)
+router.get('/profile', middlewares['profile'], authController.profile)
+router.put('/account', middlewares['account'], authController.update)
 router.post(
   '/registration',
-  middlewares['post:/registration'],
+  middlewares['registration'],
   authController.registration
 )
-router.post('/login', middlewares['post:/login'], authController.login)
+router.post('/login', middlewares['login'], authController.login)

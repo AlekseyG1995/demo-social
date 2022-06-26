@@ -1,16 +1,12 @@
 import { validationResult } from 'express-validator'
 import { User } from '../models/User.js'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import { v4 as uuidv4 } from 'uuid'
 import config from 'config'
 import { logger } from '../utils/logger.js'
+import { generateAccessJWT } from '../utils/service/service.js'
 
-const generateAccessJWT = (id, avatar) => {
-  // logger.debug('[JWT] - generate : id = ', id, ' img =  ', {id, avatar})
-  return jwt.sign(payload, config.get('server.secretKey'), { expiresIn: '12h' })
-}
 
 class AuthController {
   async profile(req, res) {
@@ -30,7 +26,7 @@ class AuthController {
       const data = await User.find({ _id: { $ne: req.jwtID } })
       // logger.debug('[api-getData]', data)
 
-      res.json({
+      return res.json({
         people: data.map((item) => {
           return {
             id: item._id,
@@ -51,7 +47,7 @@ class AuthController {
     try {
       const validationErrors = validationResult(req)
       if (!validationErrors.isEmpty()) {
-        return res.status(400).json({
+        return res.status(422).json({
           message: 'Registration error', validationErrors
         })
       }
@@ -67,7 +63,9 @@ class AuthController {
         }
         const ext = originalname.split('.').pop()
         avatar = uuidv4() + '.' + ext
-        fs.createWriteStream(`./storage/${avatar}`).write(buffer)
+        fs.createWriteStream(`
+          ./${config.get('server.staticFolderName')}/${avatar}
+        `).write(buffer)
       }
 
       const candidate = await User.findOne({ email })
@@ -81,10 +79,10 @@ class AuthController {
         username, password: hashPassword, email, gender, birthday, avatar
       })
       await user.save()
-      return res.json({ message: 'Registration has been sucsess' })
+      return res.json({ message: 'Registration has been success' })
     } catch (e) {
       logger.debug('[api-retistration] error : ', e)
-      res.status(400).json({ message: 'Registration error' })
+      return res.status(400).json({ message: 'Registration error' })
     }
   }
 
@@ -98,13 +96,13 @@ class AuthController {
       if (!bcrypt.compareSync(password, user.password)) {
         return res.status(400).json({ message: 'Password isn\'t valid' })
       }
-      res.json({
-        message: 'login is sucseeful',
+      return res.json({
+        message: 'login is successful',
         token: generateAccessJWT(user._id, user.avatar),
       })
     } catch (e) {
       logger.debug('[api-login] error : ', e)
-      res.status(400).json({ message: 'Login error' })
+      return res.status(400).json({ message: 'Login error' })
     }
   }
 
@@ -141,12 +139,12 @@ class AuthController {
       }
       // user = await User.findByIdAndUpdate({ _id: req.jwtID }, objChanges)
       await User.findByIdAndUpdate({ _id: req.jwtID }, objChanges)
-      res.json({
+      return res.json({
         avatar: avatar,
       })
     } catch (e) {
       logger.debug('[api-update] error : ', e)
-      res.status(400).json({ message: 'Update error' })
+      return res.status(400).json({ message: 'Update error' })
     }
   }
 }
