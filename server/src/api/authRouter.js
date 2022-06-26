@@ -27,7 +27,7 @@ const middlewares = {
   'login': multer().none(),
 }
 
-router.get('/data', middlewares['data'], authController.getPrivateInfo)
+router.get('/data', middlewares['data'], authController.people)
 router.get('/profile', middlewares['profile'], authController.profile)
 router.put('/account', middlewares['account'], authController.update)
 router.post(
