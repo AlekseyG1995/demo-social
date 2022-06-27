@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import config from 'config'
 import { logger } from '../utils/logger.js'
 import { generateAccessJWT } from '../utils/service/service.js'
-
+import path from 'path'
 
 class AuthController {
   async profile(req, res) {
@@ -14,7 +14,11 @@ class AuthController {
       const data = await User.findById(req.jwtID)
       return res.json({
         username: data.username,
-        avatar: config.get('server.storageURL') + data.avatar,
+        avatar: path.join(
+          process.env.CURRENT_URL || config.get('server.currentURL'),
+          'static',
+          data.avatar
+        ),
       })
     } catch (e) {
       logger.error('[api-profile] error, e')
@@ -33,7 +37,11 @@ class AuthController {
             username: item.username,
             age:
               new Date().getFullYear() - new Date(item.birthday).getFullYear(),
-            avatar: config.get('server.storageURL') + item.avatar,
+            avatar: path.join(
+              process.env.CURRENT_URL || config.get('server.currentURL'),
+              'static',
+              item.avatar
+            ),
           }
         }),
       })
@@ -48,7 +56,8 @@ class AuthController {
       const validationErrors = validationResult(req)
       if (!validationErrors.isEmpty()) {
         return res.status(422).json({
-          message: 'Registration error', validationErrors
+          message: 'Registration error',
+          validationErrors,
         })
       }
 
@@ -63,20 +72,25 @@ class AuthController {
         }
         const ext = originalname.split('.').pop()
         avatar = uuidv4() + '.' + ext
-        fs.createWriteStream(`
-          ./${config.get('server.staticFolderName')}/${avatar}
-        `).write(buffer)
+        fs.createWriteStream(
+          path.join(path.resolve(), config.get('server.staticFolderName'))
+        ).write(buffer)
       }
 
       const candidate = await User.findOne({ email })
       if (candidate) {
         return res.status(400).json({
-          message: 'User with current email already exists'
+          message: 'User with current email already exists',
         })
       }
       const hashPassword = bcrypt.hashSync(password, 7)
       const user = new User({
-        username, password: hashPassword, email, gender, birthday, avatar
+        username,
+        password: hashPassword,
+        email,
+        gender,
+        birthday,
+        avatar,
       })
       await user.save()
       return res.json({ message: 'Registration has been success' })
@@ -94,7 +108,7 @@ class AuthController {
         return res.status(400).json({ message: 'This email not exists' })
       }
       if (!bcrypt.compareSync(password, user.password)) {
-        return res.status(400).json({ message: 'Password isn\'t valid' })
+        return res.status(400).json({ message: "Password isn't valid" })
       }
       return res.json({
         message: 'login is successful',
@@ -111,7 +125,8 @@ class AuthController {
       const validationErrors = validationResult(req)
       if (!validationErrors.isEmpty()) {
         return res.status(400).json({
-          message: 'Registration error', validationErrors
+          message: 'Registration error',
+          validationErrors,
         })
       }
       const { username, password = '' } = req.body

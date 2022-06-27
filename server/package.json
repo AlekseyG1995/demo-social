@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env DB_STRING=mongodb://localhost:27017/miniSocial node ./src/index.js",
+    "start": "node ./src/index.js",
     "serve": "nodemon ./src/index.js"
   },
   "type": "module",

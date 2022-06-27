@@ -5,11 +5,23 @@ import config from 'config'
 import { router } from './api/authRouter.js'
 import corsMiddleware from './middleware/cors.middleware.js'
 import { logger } from './utils/logger.js'
+import fs from 'fs'
+
+const storagePath = path.join(
+  path.resolve(),
+  config.get('server.staticFolderName')
+)
+if (!fs.existsSync(storagePath)) {
+  fs.mkdirSync(config.get('server.staticFolderName'))
+}
 
 const app = express()
-app.use('/static', express.static(path.join(
-  path.resolve(), config.get('server.staticFolderName')
-)))
+app.use(
+  '/static',
+  express.static(
+    path.join(path.resolve(), config.get('server.staticFolderName'))
+  )
+)
 app.use(corsMiddleware)
 app.use(express.json())
 app.use('/api', router)
