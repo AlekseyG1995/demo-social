@@ -7,12 +7,16 @@ import corsMiddleware from './middleware/cors.middleware.js'
 import { logger } from './utils/logger.js'
 import fs from 'fs'
 
-const storagePath = path.join(
-  path.resolve(),
-  config.get('server.staticFolderName')
-)
-if (!fs.existsSync(storagePath)) {
-  fs.mkdirSync(config.get('server.staticFolderName'))
+try {
+  const storagePath = path.join(
+    path.resolve(),
+    config.get('server.staticFolderName')
+  )
+  if (!fs.existsSync(storagePath)) {
+    fs.mkdirSync(storagePath)
+  }
+} catch (e) {
+  logger.error('error! ', e)
 }
 
 const app = express()

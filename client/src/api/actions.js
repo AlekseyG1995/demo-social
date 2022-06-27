@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { logger } from '../../../server/src/utils/logger'
 import { setPeople } from '../redux/actions/appData'
 import { setAccountData, signIn, signOut } from '../redux/actions/auth'
 
@@ -12,13 +13,16 @@ class AuthApi {
     return async (dispatch) => {
       try {
         const res = await axios.post(
-          `${this.#host}/api/registration`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        })
-        console.log('[API actions] = registration OK', res)
+          `${this.#host}/api/registration`,
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          }
+        )
+        logger.debug('[API actions] = registration OK', res)
         alert('registration sucsessful!')
       } catch (e) {
-        console.log('[API actions] = registration ERR', e)
+        logger.debug('[API actions] = registration ERR', e)
         const expectedMsg = e?.response?.data?.message
         alert(expectedMsg ? expectedMsg : 'error')
       }
@@ -33,9 +37,9 @@ class AuthApi {
         })
         localStorage.setItem('token', res?.data?.token)
         dispatch(signIn())
-        console.log('[API actions] = login OK')
+        logger.debug('[API actions] = login OK')
       } catch (e) {
-        console.log('[API actions] = login ERR')
+        logger.debug('[API actions] = login ERR')
         const expectedMsg = e?.response?.data?.message
         alert(expectedMsg ? expectedMsg : 'error')
       }
@@ -51,13 +55,13 @@ class AuthApi {
             headers: { Authorization: `Bearer ${token}` },
           })
           dispatch(setAccountData(res.data))
-          console.log('[API actions] = profile OK', res)
+          logger.debug('[API actions] = profile OK', res)
         } else {
           dispatch(signOut())
         }
       } catch (e) {
         dispatch(signOut())
-        console.log('[API actions] = profile ERR', e)
+        logger.debug('[API actions] = profile ERR', e)
       }
     }
   }
@@ -70,9 +74,9 @@ class AuthApi {
           headers: { Authorization: `Bearer ${token}` },
         })
         dispatch(setPeople(res.data.people))
-        console.log('[API actions] = getData OK', res)
+        logger.debug('[API actions] = getData OK', res)
       } catch (e) {
-        console.log('[API actions] = getData ERR', e)
+        logger.debug('[API actions] = getData ERR', e)
         // const expectedMsg = e?.response?.data?.message
         // alert(expectedMsg ? expectedMsg : "error")
       }
@@ -86,13 +90,13 @@ class AuthApi {
         const res = await axios.put(`${this.#host}/api/account`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
         })
-        console.log('[API actions] = updata OK', res)
+        logger.debug('[API actions] = updata OK', res)
         alert('update successful')
       } catch (e) {
-        console.log('[API actions] = udpate ERR')
+        logger.debug('[API actions] = udpate ERR')
         const expectedMsg = e?.response?.data?.message
         alert(expectedMsg ? expectedMsg : 'error')
       }

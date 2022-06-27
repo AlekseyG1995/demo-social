@@ -28,7 +28,6 @@ class AuthController {
   async people(req, res) {
     try {
       const data = await User.find({ _id: { $ne: req.jwtID } })
-      // logger.debug('[api-getData]', data)
 
       return res.json({
         people: data.map((item) => {
@@ -61,7 +60,6 @@ class AuthController {
         })
       }
 
-      logger.debug('[api-retistration] clientData : ', req.body)
       const { username, email, password, gender, birthday } = req.body
       let avatar = null
 
@@ -70,10 +68,16 @@ class AuthController {
         if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
           throw new Error('mimetype file is not correct')
         }
+
         const ext = originalname.split('.').pop()
         avatar = uuidv4() + '.' + ext
+
         fs.createWriteStream(
-          path.join(path.resolve(), config.get('server.staticFolderName'))
+          path.join(
+            path.resolve(),
+            config.get('server.staticFolderName'),
+            avatar
+          )
         ).write(buffer)
       }
 
