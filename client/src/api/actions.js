@@ -13,7 +13,7 @@ class AuthApi {
     return async (dispatch) => {
       try {
         const res = await axios.post(
-          `${this.#host}/api/registration`,
+          new URL('/api/registration', API_URL).toString(),
           formData,
           {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -32,14 +32,18 @@ class AuthApi {
   login(formData) {
     return async (dispatch) => {
       try {
-        const res = await axios.post(`${this.#host}/api/login`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        })
+        const res = await axios.post(
+          new URL('/api/login', API_URL).toString(),
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          }
+        )
         localStorage.setItem('token', res?.data?.token)
         dispatch(signIn())
         console.log('[API actions] = login OK')
       } catch (e) {
-        console.log('[API actions] = login ERR')
+        console.log('[API actions] = login ERR', e)
         const expectedMsg = e?.response?.data?.message
         alert(expectedMsg ? expectedMsg : 'error')
       }
@@ -51,9 +55,12 @@ class AuthApi {
       try {
         const token = localStorage.getItem('token')
         if (token) {
-          const res = await axios.get(`${this.#host}/api/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+          const res = await axios.get(
+            new URL('/api/profile', API_URL).toString(),
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
           dispatch(setAccountData(res.data))
           console.log('[API actions] = profile OK', res)
         } else {
@@ -70,7 +77,7 @@ class AuthApi {
     return async (dispatch) => {
       try {
         const token = localStorage.getItem('token')
-        const res = await axios.get(`${this.#host}/api/data`, {
+        const res = await axios.get(new URL('/api/data', API_URL).toString(), {
           headers: { Authorization: `Bearer ${token}` },
         })
         dispatch(setPeople(res.data.people))
@@ -87,17 +94,21 @@ class AuthApi {
     return async (dispatch) => {
       try {
         const token = localStorage.getItem('token')
-        const res = await axios.put(`${this.#host}/api/account`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            // eslint-disable-next-line quote-props
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        const res = await axios.put(
+          new URL('/api/account', API_URL).toString(),
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              // eslint-disable-next-line quote-props
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         console.log('[API actions] = updata OK', res)
         alert('update successful')
       } catch (e) {
-        console.log('[API actions] = udpate ERR')
+        console.log('[API actions] = udpate ERR', e)
         const expectedMsg = e?.response?.data?.message
         alert(expectedMsg ? expectedMsg : 'error')
       }
