@@ -47,5 +47,3 @@ const connectDB = async () => {
   }
 }
 connectDB()
-logger.debug('[index.js] DB: ' + connectionSrtingDB)
-logger.debug('[index.js] currentPORT: ' + PORT)

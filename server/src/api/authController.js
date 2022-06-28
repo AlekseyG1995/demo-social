@@ -8,17 +8,15 @@ import { logger } from '../utils/logger.js'
 import { generateAccessJWT } from '../utils/service/service.js'
 import path from 'path'
 
+const _currentHost = process.env.CURRENT_URL || config.get('server.currentURL')
+
 class AuthController {
   async profile(req, res) {
     try {
       const data = await User.findById(req.jwtID)
       return res.json({
         username: data.username,
-        avatar: path.join(
-          process.env.CURRENT_URL || config.get('server.currentURL'),
-          'static',
-          data.avatar
-        ),
+        avatar: new URL(`static/${data.avatar}`, _currentHost),
       })
     } catch (e) {
       logger.error('[api-profile] error, e')
@@ -36,11 +34,7 @@ class AuthController {
             username: item.username,
             age:
               new Date().getFullYear() - new Date(item.birthday).getFullYear(),
-            avatar: path.join(
-              process.env.CURRENT_URL || config.get('server.currentURL'),
-              'static',
-              item.avatar
-            ),
+            avatar: new URL(`static/${item.avatar}`, _currentHost),
           }
         }),
       })
