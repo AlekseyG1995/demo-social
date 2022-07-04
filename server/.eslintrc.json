@@ -12,6 +12,7 @@
   },
   "rules": {
     "semi": "off",
+    "new-cap":"off",
     "linebreak-style": "off",
     "arrow-parens": "off",
     "comma-dangle": "off",
