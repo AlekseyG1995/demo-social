@@ -6,6 +6,7 @@ import { router } from './api/authRouter.js'
 import corsMiddleware from './middleware/cors.middleware.js'
 import { logger } from './utils/logger.js'
 import { checkStaticFolder } from './services/fileServices.js'
+import { errorMiddleware } from './middleware/error.middleware.js'
 
 const app = express()
 app.use(
@@ -15,6 +16,7 @@ app.use(
 app.use(corsMiddleware)
 app.use(express.json())
 app.use('/api', router)
+app.use(errorMiddleware)
 
 checkStaticFolder(process.env.STATIC_FOLDER_NAME)
 
