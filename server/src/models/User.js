@@ -7,7 +7,9 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   gender: { type: String, required: true },
   birthday: { type: Date, required: true },
+  isActivated: { type: Boolean, default: false },
   avatar: String,
+  activationLink: String,
 })
 
-export const User = model('User', UserSchema)
+export const userModel = model('User', UserSchema)
