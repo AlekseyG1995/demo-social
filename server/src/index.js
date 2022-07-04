@@ -2,6 +2,7 @@ import express from 'express'
 import path from 'path'
 import mongoose from 'mongoose'
 import 'dotenv/config'
+import cookieParser from 'cookie-parser'
 import { router } from './api/authRouter.js'
 import corsMiddleware from './middleware/cors.middleware.js'
 import { logger } from './utils/logger.js'
@@ -15,6 +16,7 @@ app.use(
 )
 app.use(corsMiddleware)
 app.use(express.json())
+app.use(cookieParser())
 app.use('/api', router)
 app.use(errorMiddleware)
 
