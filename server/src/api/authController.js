@@ -3,12 +3,11 @@ import { User } from '../models/User.js'
 import bcrypt from 'bcrypt'
 import fs from 'fs'
 import { v4 as uuidv4 } from 'uuid'
-import config from 'config'
 import { logger } from '../utils/logger.js'
 import { generateAccessJWT } from '../utils/service/service.js'
 import path from 'path'
 
-const _currentHost = process.env.CURRENT_URL || config.get('server.currentURL')
+const _currentHost = process.env.API_URL
 
 class AuthController {
   async profile(req, res) {
@@ -67,11 +66,7 @@ class AuthController {
         avatar = uuidv4() + '.' + ext
 
         fs.createWriteStream(
-          path.join(
-            path.resolve(),
-            config.get('server.staticFolderName'),
-            avatar
-          )
+          path.join(path.resolve(), process.env.STATIC_FOLDER_NAME, avatar)
         ).write(buffer)
       }
 
@@ -106,6 +101,7 @@ class AuthController {
         return res.status(400).json({ message: 'This email not exists' })
       }
       if (!bcrypt.compareSync(password, user.password)) {
+        // eslint-disable-next-line quotes
         return res.status(400).json({ message: "Password isn't valid" })
       }
       return res.json({
