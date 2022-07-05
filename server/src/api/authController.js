@@ -7,7 +7,7 @@ import { logger } from '../utils/logger.js'
 // import { generateAccessJWT } from '../utils/service/service.js'
 // import path from 'path'
 import { ApiError } from '../exceptions/apiError.js'
-import { authService } from './services/authService.js'
+import { authService } from '../services/authService.js'
 
 class AuthController {
   async profile(req, res) {

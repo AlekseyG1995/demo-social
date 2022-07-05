@@ -1,15 +1,14 @@
 // import { logger } from '../../utils/logger.js'
 
-import { userModel } from '../../models/User.js'
+import { userModel } from '../models/User.js'
 import bcrypt from 'bcrypt'
 import path from 'path'
-
 import { v4 as uuidv4 } from 'uuid'
-import { mailService } from '../services/mailService.js'
-import { tokenService } from '../services/tokenService.js'
-import { AuthUserDTO } from '../dto/authUserDTO.js'
-import { ApiError } from '../../exceptions/apiError.js'
-import { fileServices } from '../../services/fileServices.js'
+import { mailService } from './mailService.js'
+import { tokenService } from './tokenService.js'
+import { AuthUserDTO } from '../api/dto/authUserDTO.js'
+import { ApiError } from '../exceptions/apiError.js'
+import { fileServices } from './fileServices.js'
 
 class AuthService {
   async registration({ username, email, password, gender, birthday, file }) {
