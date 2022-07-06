@@ -41,7 +41,7 @@ router.post(
 )
 router.get('/activate/:link', authController.activate)
 router.post('/login', middlewares['login'], authController.login)
-router.get('/data', middlewares['data'], authController.people)
+router.get('/data', middlewares['data'], authController.users)
 router.get('/profile', middlewares['profile'], authController.profile)
 // router.put('/account', middlewares['account'], authController.update)
 router.post('/logout', authController.logout)

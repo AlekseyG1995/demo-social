@@ -9,6 +9,8 @@ import { tokenService } from './tokenService.js'
 import { AuthUserDTO } from '../api/dto/authUserDTO.js'
 import { ApiError } from '../exceptions/apiError.js'
 import { fileServices } from './fileServices.js'
+import { logger } from '../utils/logger.js'
+import { DataUserDTO } from '../api/dto/dataUserDTO.js'
 
 class AuthService {
   async registration({ username, email, password, gender, birthday, file }) {
@@ -102,10 +104,13 @@ class AuthService {
     }
   }
 
-  async getAllUsers() {
-    // need Other
-    const users = await userModel.find()
-    return users
+  async getOtherUsers(currentUserId) {
+    const users = await userModel.find({
+      _id: { $ne: currentUserId },
+      isActivated: true
+    })
+    const usersDTO = users.map(user => new DataUserDTO(user))
+    return usersDTO
   }
 }
 

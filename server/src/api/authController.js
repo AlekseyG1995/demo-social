@@ -22,7 +22,14 @@ class AuthController {
     // }
   }
 
-  async people(req, res) {
+  async users(req, res, next) {
+    try {
+      const currentUserId = req.user.id
+      const users = await authService.getOtherUsers(currentUserId);
+      return res.json(users);
+    } catch (e) {
+      next(e);
+    }
     // try {
     //   const data = await User.find({ _id: { $ne: req.jwtID } })
     //   return res.json({
