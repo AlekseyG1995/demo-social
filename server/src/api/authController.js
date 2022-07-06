@@ -105,6 +105,37 @@ class AuthController {
     }
   }
 
+  async logout(req, res, next) {
+    try {
+      const { refreshToken } = req.cookies;
+      const token = await authService.logout(refreshToken);
+      res.clearCookie('refreshToken');
+      return res.json(token);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async refresh(req, res, next) {
+    try {
+      const { refreshToken: oldRefreshToken } = req.cookies;
+      const {
+        user,
+        accessToken,
+        refreshToken
+      } = await authService.refresh(oldRefreshToken);
+      logger.debug('user', user)
+      res.cookie(
+        'refreshToken',
+        refreshToken,
+        { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true }
+      )
+      return res.json({ user, accessToken });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async update(req, res) {
     //   try {
     //     const validationErrors = validationResult(req)

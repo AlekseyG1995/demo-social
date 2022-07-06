@@ -93,12 +93,12 @@ class AuthService {
     }
 
     const user = await userModel.findById(userToken.id) // for update tokenInfo
-    const userDTO = new UserDTO(user) // id, email, isActivated
-    const tokens = await tokenService.generateTokens({ ...userDTO })
+    const authUserDTO = new AuthUserDTO(user) // id, email, isActivated
+    const tokens = await tokenService.generateTokens({ ...authUserDTO })
     await tokenService.saveToken(user._id, tokens.refreshToken)
     return {
       ...tokens,
-      user: userDTO,
+      user: authUserDTO,
     }
   }
 
