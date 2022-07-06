@@ -15,19 +15,24 @@ class MailService {
   }
 
   async sendActivationMail(to, link) {
-    // logger.info('[mailService] send imitation!')
-    await this.transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to,
-      subject: `Activation account from ${process.env.API_URL}`,
-      text: '',
-      html: `
+    try {
+      // logger.info('[mailService] send imitation!')
+      await this.transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to,
+        subject: `Activation account from ${process.env.API_URL}`,
+        text: '',
+        html: `
                 <div>
                   <h1>Follow this link from registration</h1>
                   <a href="${link}">${link}</a>
                 </div>
               `,
-    })
+      })
+      logger.debug('[mailService] Mail has been send!')
+    } catch (e) {
+      logger.error('[mailService] Error sanding mail!', e)
+    }
   }
 }
 
