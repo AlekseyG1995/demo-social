@@ -76,6 +76,37 @@ class AuthService {
       user: userDTO,
     }
   }
+
+  async logout(refreshToken) {
+    const token = await tokenService.removeToken(refreshToken)
+    return token
+  }
+
+  async refresh(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError()
+    }
+    const userToken = tokenService.validateRefreshToken(refreshToken)
+    const tokenFromDb = await tokenService.findToken(refreshToken)
+    if (!userToken || !tokenFromDb) {
+      throw ApiError.UnauthorizedError()
+    }
+
+    const user = await userModel.findById(userToken.id) // for update tokenInfo
+    const userDTO = new UserDTO(user) // id, email, isActivated
+    const tokens = await tokenService.generateTokens({ ...userDTO })
+    await tokenService.saveToken(user._id, tokens.refreshToken)
+    return {
+      ...tokens,
+      user: userDTO,
+    }
+  }
+
+  async getAllUsers() {
+    // need Other
+    const users = await userModel.find()
+    return users
+  }
 }
 
 export const authService = new AuthService()
