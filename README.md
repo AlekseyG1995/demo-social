@@ -32,8 +32,31 @@
 
 ## 2 итерация
 
+#### Полученные рекомендации
+
+- Не хранить пол юзера в String (+, добавлен enum)
+- При загрузке нового изображения удалять старое (+)
+- Использование шаблона DTO (+)
+- При регистрации проверять существования email, а затем загружать изображение (+)
+
 <!-- myInfo
+- SERVER
+
 . env
+accessToken & refreshToken (httpOnly cookie) + store refreshTokens from DB
++ /refresh endpoint (generate new Access token)
++ /activate enpoint (activate account for mail)
++ /logout endpoint (delete token from DB)
+DTO-pattern for data
+add Services - layout
+add ApiError (extends default Error Class) with errorMiddleware
+fixed myLogger (add RestOperator for many arguments)
+setup cors (only current client_url, and allow credintals)
+
+- CLIENT
+
+axios.js - insance Axios with interceptors
+service layout (-)
 
 
  -->
