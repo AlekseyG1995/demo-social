@@ -18,7 +18,6 @@ class TokenService {
 
   async saveToken(userId, refreshToken) {
     const currentToken = await tokenModel.findOne({ user: userId })
-    console.log('[tokenService] log currentToken: ', currentToken)
     if (currentToken) {
       currentToken.refreshToken = refreshToken
       return await currentToken.save()
@@ -28,12 +27,12 @@ class TokenService {
 
   async removeToken(refreshToken) {
     const tokenData = await tokenModel.deleteOne({ refreshToken })
-    return tokenData // boolean?
+    return tokenData
   }
 
   async findToken(refreshToken) {
     const tokenData = await tokenModel.findOne({ refreshToken })
-    return tokenData // boolean?
+    return tokenData
   }
 
   validateAccessToken(token) {
