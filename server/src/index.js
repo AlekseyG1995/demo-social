@@ -3,8 +3,8 @@ import path from 'path'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import { router } from './api/authRouter.js'
-import corsMiddleware from './middleware/cors.middleware.js'
 import { logger } from './utils/logger.js'
 import { fileServices } from './services/fileServices.js'
 import { errorMiddleware } from './middleware/error.middleware.js'
@@ -14,7 +14,13 @@ app.use(
   '/static',
   express.static(path.join(path.resolve(), process.env.STATIC_FOLDER_NAME))
 )
-app.use(corsMiddleware)
+// app.use(corsMiddleware)
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  })
+)
 app.use(express.json())
 app.use(cookieParser())
 app.use('/api', router)
