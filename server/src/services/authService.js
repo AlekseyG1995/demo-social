@@ -66,8 +66,8 @@ class AuthService {
     if (!user) {
       throw ApiError.BadRequest(`User with email ${email} not exists!`)
     }
-    const isPasswordsEquals = bcrypt.compare(password, user.password)
-    if (await !isPasswordsEquals) {
+    const isPasswordsEquals = await bcrypt.compare(password, user.password)
+    if (!isPasswordsEquals) {
       throw ApiError.BadRequest(`Uncorrect password!`)
     }
     const userDTO = new AuthUserDTO(user)
@@ -111,6 +111,47 @@ class AuthService {
     })
     const usersDTO = users.map(user => new DataUserDTO(user))
     return usersDTO
+  }
+
+  async update({ userId, username, password = '', avatar = null }) {
+    const user = await userModel.findById(userId)
+    let newAvatar = null
+    user.username = username
+    // my Validatation password
+    if (password.length >= 8 && password.length <= 32) {
+      user['password'] = bcrypt.hashSync(password, 7)
+    } else {
+      if (password !== '') {
+        throw ApiError.BadRequest(`Uncorrect password!`)
+      }
+    }
+
+    if (avatar) {
+      const { mimetype, originalname, buffer } = avatar
+      if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
+        throw ApiError.BadRequest(`Mimetype file is not correct`)
+      }
+      const ext = originalname.split('.').pop()
+      newAvatar = uuidv4() + '.' + ext
+
+      fileServices.deleteFile(
+        path.join(path.resolve(), process.env.STATIC_FOLDER_NAME, user.avatar),
+      )
+
+      fileServices.saveFile(
+        path.join(path.resolve(), process.env.STATIC_FOLDER_NAME, newAvatar),
+        buffer
+      )
+      user['avatar'] = newAvatar
+    }
+
+    user.save()
+    return new AuthUserDTO(user)
+  }
+
+  async profile(currentUserId) {
+    const user = await userModel.findById(currentUserId)
+    return new AuthUserDTO(user)
   }
 }
 

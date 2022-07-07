@@ -17,8 +17,18 @@ class FileServices {
   saveFile = (path, data) => {
     try {
       fs.createWriteStream(path).write(data)
+      logger.info('[fileServices] saveFile: ', path)
     } catch (e) {
       logger.error('[fileServices] saveFile Error!', e)
+    }
+  }
+
+  deleteFile(path) {
+    try {
+      fs.unlinkSync(path);
+      logger.info('[fileServices] deleteFile Complete!')
+    } catch (e) {
+      logger.warning('[fileServices] deleteFile Error!', e)
     }
   }
 }
