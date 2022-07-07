@@ -4,7 +4,7 @@ import {
   TextField,
   Box,
   Grid,
-  Container
+  Container,
 } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -25,7 +25,6 @@ const Account = () => {
     formData.file = formData.file[0] || null
     dispatch(authApi.update(formData))
     reset()
-    dispatch(authApi.profile())
   }
 
   return (
@@ -34,8 +33,9 @@ const Account = () => {
         Edit your account
       </Typography>
       <Container maxWidth="xs">
-        <Box mt={3}
-          component='form'
+        <Box
+          mt={3}
+          component="form"
           encType="multipart/form-data"
           onSubmit={handleSubmit(onSubmit)}
         >
@@ -88,7 +88,10 @@ const Account = () => {
             </Grid>
             <Grid item xs={12} sx={{ mt: 5 }}>
               <Button
-                disabled={!isValid} type="submit" fullWidth variant="contained"
+                disabled={!isValid}
+                type="submit"
+                fullWidth
+                variant="contained"
               >
                 save changes
               </Button>
