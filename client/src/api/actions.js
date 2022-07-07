@@ -1,7 +1,8 @@
-import axios from 'axios'
 import { API_URL } from '../config'
 import { setPeople } from '../redux/actions/appData'
 import { setAccountData, signIn, signOut } from '../redux/actions/auth'
+import { AuthService } from '../services/AuthService.js'
+import { UserService } from '../services/UserService'
 
 class AuthApi {
   #host
@@ -12,13 +13,7 @@ class AuthApi {
   registraton(formData) {
     return async (dispatch) => {
       try {
-        const res = await axios.post(
-          new URL('/api/registration', API_URL).toString(),
-          formData,
-          {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          }
-        )
+        const res = await AuthService.registration(formData)
         console.log('[API actions] = registration OK', res)
         alert('registration sucsessful!')
       } catch (e) {
@@ -32,14 +27,8 @@ class AuthApi {
   login(formData) {
     return async (dispatch) => {
       try {
-        const res = await axios.post(
-          new URL('/api/login', API_URL).toString(),
-          formData,
-          {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          }
-        )
-        localStorage.setItem('token', res?.data?.token)
+        const res = await AuthService.login(formData)
+        localStorage.setItem('token', res?.data?.accessToken)
         dispatch(signIn())
         console.log('[API actions] = login OK')
       } catch (e) {
@@ -50,22 +39,19 @@ class AuthApi {
     }
   }
 
+  logout() {
+    return async (dispatch) => {
+      await AuthService.logout()
+      dispatch(signOut())
+    }
+  }
+
   profile() {
     return async (dispatch) => {
       try {
-        const token = localStorage.getItem('token')
-        if (token) {
-          const res = await axios.get(
-            new URL('/api/profile', API_URL).toString(),
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          )
-          dispatch(setAccountData(res.data))
-          console.log('[API actions] = profile OK', res)
-        } else {
-          dispatch(signOut())
-        }
+        const res = await AuthService.getProfile()
+        dispatch(setAccountData(res.data))
+        console.log('[API actions] = profile OK', res)
       } catch (e) {
         dispatch(signOut())
         console.log('[API actions] = profile ERR', e)
@@ -76,11 +62,8 @@ class AuthApi {
   getData() {
     return async (dispatch) => {
       try {
-        const token = localStorage.getItem('token')
-        const res = await axios.get(new URL('/api/data', API_URL).toString(), {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        dispatch(setPeople(res.data.people))
+        const res = await UserService.fetchUsers()
+        dispatch(setPeople(res.data))
         console.log('[API actions] = getData OK', res)
       } catch (e) {
         console.log('[API actions] = getData ERR', e)
@@ -93,19 +76,9 @@ class AuthApi {
   update(formData) {
     return async (dispatch) => {
       try {
-        const token = localStorage.getItem('token')
-        const res = await axios.put(
-          new URL('/api/account', API_URL).toString(),
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              // eslint-disable-next-line quote-props
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        console.log('[API actions] = updata OK', res)
+        const res = await AuthService.updateAccount(formData)
+        console.log('[API actions] = updata OK', res.data.user)
+        dispatch(setAccountData(res.data.user))
         alert('update successful')
       } catch (e) {
         console.log('[API actions] = udpate ERR', e)
@@ -115,5 +88,4 @@ class AuthApi {
     }
   }
 }
-const apiURL = process.env.API_URL || API_URL
-export const authApi = new AuthApi(apiURL)
+export const authApi = new AuthApi(API_URL)
