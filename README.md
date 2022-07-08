@@ -3,7 +3,26 @@
 - тестовое задание:
 
 ```
-...
+Тестовое задание
+Задача: создать веб-приложение с использованием 	 	 	       					   ReactJs+Node.js(express.js)+MongoDB
+1.	Главная страница (route /):
+1.1. Форма регистрации. Поля – имя, email, пароль, дата рождения, пол, фото 	 		       профиля;
+1.2. Форма авторизации;
+2. 	Профиль (route /account):
+2.1. Форма редактирования полей – имя, пароль, фото профиля;
+3.	Аккаунты (route /people)
+	3.1. Отображение карточек пользователя других юзеров;
+–	При заходе на данную страницу отображается список всех пользователя кроме текущего.
+	3.2. Карточка аккаунта состоит из:
+–	фото профиля;
+–	имя;
+–	возраст;
+4.	Сдача проекта – ссылка на github или gitlab
+
+Примечание
+–	Постарайтесь отобразить в работе, что умеете работать как и с готовыми решениями так и создавать свои.
+–	Не забывайте про визуальную эстетику создаваемого вами приложени.
+
 ```
 
 ## 1 итерация
@@ -34,31 +53,48 @@
 
 #### Полученные рекомендации
 
-- Не хранить пол юзера в String (+, добавлен enum)
-- При загрузке нового изображения удалять старое (+)
-- Использование шаблона DTO (+)
-- При регистрации проверять существования email, а затем загружать изображение (+)
+- Не хранить пол юзера в String
+- При загрузке нового изображения удалять старое
+- Использование шаблона DTO
+- При регистрации проверять существования email, а затем загружать изображение
 
-<!-- myInfo
-- SERVER
+#### Исправления и доработки
 
-. env
-accessToken & refreshToken (httpOnly cookie) + store refreshTokens from DB
-+ /refresh endpoint (generate new Access token)
-+ /activate enpoint (activate account for mail)
-+ /logout endpoint (delete token from DB)
-DTO-pattern for data
-add Services - layout
-add ApiError (extends default Error Class) with errorMiddleware
-fixed myLogger (add RestOperator for many arguments)
-setup cors (only current client_url, and allow credintals)
+- Server
+  - исправлены недочеты, описанные в полученных рекомендациях
+  - улучшенная авторизация
+    - вместо accessToken'a используется пара (access, refresh)
+      - access - localstorage
+      - refresh - httpOnly cookie
+    - реализвано подтвержение email'a по почте
+      - при выводе пользователей кроме текущего отображаются только подтвержденные
+    - расширена БД - действующий refreshToken хранится в БД
+  - реализован дополнительный сервисный слой
+  - реализован отдельный класс ошибок, работающий в связке с соотвествующим middleware
+- Client
+  - используется кастомный instance Axios, включающий interceptor'ы для комфортной работы с jwt-токенами
+  - реализован дополнительный сервисный слой
 
-- CLIENT
+### deploy
 
-axios.js - insance Axios with interceptors
-service layout (-)
+- актуальная версия [heroku](https://demo-social-client.herokuapp.com/)
 
+#### самостоятельная сборка
 
- -->
+- Frontend
+  - указать в _config.js_ актуальный адрес до api сервера (например, `http://localhost:5005/api/`)
+- Backend
+  - необходимо установать ряд переменный окружения
 
-<!-- ### deploy -->
+| Name               |              Example               |                Description                |
+| :----------------- | :--------------------------------: | :---------------------------------------: |
+| DB_STRING          | `mongodb://localhost:27017/testDB` |       строка подключения к MongoDB        |
+| STATIC_FOLDER_NAME |             `storage`              | имя директории для хрананения изображения |
+| JWT_ACCESS_SECRET  |            `secretKey1`            |      ключ для подписи accessToken'а       |
+| JWT_REFRESH_SECRET |            `secretKey2`            |      ключ для подписи refreshToken'а      |
+| SMTP_HOST          |          `smtp.yandex.ru`          |     адрес сервера для отправки почты      |
+| SMTP_PORT          |               `587`                |      порт сервера для отправки почты      |
+| SMTP_USER          |          `test@yandex.ru`          |                логин почты                |
+| SMTP_PASSWORD      |             `P@$$w0rd`             |               пароль почты                |
+| API_URL            |      `http://localhost:5005`       |           текущий адрес сервера           |
+| CLIENT_URL         |      `http://localhost:3000`       |           текущий адрес клиента           |
