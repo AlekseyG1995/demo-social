@@ -43,7 +43,7 @@ class AuthController {
         birthday,
         file: req.file,
       })
-      logger.info('[api-registration] registration successful: ', user.email)
+      logger.info('[api-registration] registration successful! id:', user.id)
       return res.status(200).json({ message: 'registration successful', user })
     } catch (e) {
       logger.warning('[api-registration] error : ', e)
@@ -69,7 +69,7 @@ class AuthController {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       })
-      logger.info('[api-login] login successful: ', user.email)
+      logger.info('[api-login] login successful! id: ', user.id)
       return res.json({ user, accessToken })
     } catch (e) {
       logger.warning('[api-login] error : ', e)

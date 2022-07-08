@@ -18,7 +18,7 @@ const consoleConfig = {
     enabled: true,
   },
   warning: {
-    color: colors.bgWhite,
+    color: colors.bgYellow,
     enabled: true,
   },
   error: {
