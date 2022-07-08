@@ -1,20 +1,28 @@
-import jwt from 'jsonwebtoken'
-import config from 'config'
-import { logger } from '../utils/logger.js'
+// import jwt from 'jsonwebtoken'
+import { ApiError } from '../exceptions/apiError.js';
+import { tokenService } from '../services/tokenService.js';
+// import { logger } from '../utils/logger.js'
 
-export const authMiddleware = (req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    next()
-  }
-
+export function authMiddleware(req, res, next) {
   try {
-    const token = req.headers.authorization?.split(' ')[1]
-    // logger.debug("[JWT] AuthMiddleware: ", token)
-    const { id } = jwt.verify(token, config.get('server.secretKey'))
-    req.jwtID = id
-    next()
+    const authorizationHeader = req.headers.authorization;
+    if (!authorizationHeader) {
+      return next(ApiError.UnauthorizedError());
+    }
+
+    const accessToken = authorizationHeader.split(' ')[1];
+    if (!accessToken) {
+      return next(ApiError.UnauthorizedError());
+    }
+
+    const userData = tokenService.validateAccessToken(accessToken);
+    if (!userData) {
+      return next(ApiError.UnauthorizedError());
+    }
+
+    req.user = userData;
+    next();
   } catch (e) {
-    logger.debug('[JWT] AuthMiddleware: JWT isn\'t valid')
-    return res.status(403).json({ message: 'Access denied!', e })
+    return next(ApiError.UnauthorizedError());
   }
 }

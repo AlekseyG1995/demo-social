@@ -1,49 +1,38 @@
 import express from 'express'
 import path from 'path'
 import mongoose from 'mongoose'
-import config from 'config'
+import 'dotenv/config'
+import cookieParser from 'cookie-parser'
 import { router } from './api/authRouter.js'
 import corsMiddleware from './middleware/cors.middleware.js'
 import { logger } from './utils/logger.js'
-import fs from 'fs'
-
-try {
-  const storagePath = path.join(
-    path.resolve(),
-    config.get('server.staticFolderName')
-  )
-  if (!fs.existsSync(storagePath)) {
-    fs.mkdirSync(storagePath)
-  }
-} catch (e) {
-  logger.error('error! ', e)
-}
+import { fileServices } from './services/fileServices.js'
+import { errorMiddleware } from './middleware/error.middleware.js'
 
 const app = express()
 app.use(
   '/static',
-  express.static(
-    path.join(path.resolve(), config.get('server.staticFolderName'))
-  )
+  express.static(path.join(path.resolve(), process.env.STATIC_FOLDER_NAME))
 )
 app.use(corsMiddleware)
 app.use(express.json())
+app.use(cookieParser())
 app.use('/api', router)
+app.use(errorMiddleware)
 
-const PORT = process.env.PORT || config.get('server.port')
-app.listen(PORT, () => {
-  logger.info(`[Express] Server started on port ${PORT}`)
-})
+fileServices.checkStaticFolder(process.env.STATIC_FOLDER_NAME)
 
-const connectionSrtingDB =
-  process.env.DB_STRING || config.get('dbConfig.connectonString')
+const PORT = process.env.PORT || 5005
 
-const connectDB = async () => {
+const startWithDB = async () => {
   try {
-    await mongoose.connect(connectionSrtingDB)
+    app.listen(PORT, () => {
+      logger.info(`[Express] Server started on port ${PORT}`)
+    })
+    await mongoose.connect(process.env.DB_STRING)
     logger.info('[MongoDB] Connect to DataBase')
   } catch (e) {
-    logger.error(e)
+    logger.fatal(e)
   }
 }
-connectDB()
+startWithDB()
