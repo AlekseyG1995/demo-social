@@ -32,7 +32,7 @@ myAxios.interceptors.response.use(
       } catch (error) {
         console.warn('Not Authorized')
       }
-      throw error
     }
+    throw error
   }
 )
