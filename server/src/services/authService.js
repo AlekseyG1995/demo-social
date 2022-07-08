@@ -103,6 +103,12 @@ class AuthService {
   }
 
   async getOtherUsers(currentUserId) {
+    const currentUser = await userModel.findById(currentUserId)
+    if (!currentUser.isActivated) {
+      throw ApiError.BadRequest(
+        'Error loading data! Please, activate your account!'
+      )
+    }
     const users = await userModel.find({
       _id: { $ne: currentUserId },
       isActivated: true,
