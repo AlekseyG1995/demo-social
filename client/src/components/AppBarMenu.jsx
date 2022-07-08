@@ -10,12 +10,12 @@ import {
   Container,
   Avatar,
   Tooltip,
-  MenuItem
+  MenuItem,
 } from '@mui/material'
 import InterestsIcon from '@mui/icons-material/Interests'
 import { useDispatch, useSelector } from 'react-redux'
 import { authApi } from '../api/actions'
-import { signOut } from '../redux/actions/auth'
+// import { signOut } from '../redux/actions/auth'
 
 const AppBarMenu = () => {
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -85,9 +85,8 @@ const AppBarMenu = () => {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt="Avatar"
-                      src={accountData?.avatar ? accountData?.avatar : ''}>
-
-                    </Avatar>
+                      src={accountData?.avatar ? accountData?.avatar : ''}
+                    ></Avatar>
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -119,7 +118,7 @@ const AppBarMenu = () => {
                     key={'logout'}
                     onClick={() => {
                       handleCloseUserMenu()
-                      dispatch(signOut())
+                      dispatch(authApi.logout())
                     }}
                   >
                     <Typography textAlign="center">logout</Typography>

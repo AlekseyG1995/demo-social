@@ -8,6 +8,8 @@ export class AuthUserDTO {
     this.id = model._id
     this.username = model.username
     this.isActivated = model.isActivated
-    this.avatar = new URL(`static/${model.avatar}`, process.env.API_URL)
+    this.avatar = model.avatar
+      ? new URL(`static/${model.avatar}`, process.env.API_URL)
+      : ''
   }
 }

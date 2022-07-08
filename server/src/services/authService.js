@@ -1,5 +1,3 @@
-// import { logger } from '../../utils/logger.js'
-
 import { userModel } from '../models/User.js'
 import bcrypt from 'bcrypt'
 import path from 'path'
@@ -9,8 +7,8 @@ import { tokenService } from './tokenService.js'
 import { AuthUserDTO } from '../api/dto/authUserDTO.js'
 import { ApiError } from '../exceptions/apiError.js'
 import { fileServices } from './fileServices.js'
-import { logger } from '../utils/logger.js'
 import { DataUserDTO } from '../api/dto/dataUserDTO.js'
+// import { logger } from '../../utils/logger.js'
 
 class AuthService {
   async registration({ username, email, password, gender, birthday, file }) {
@@ -105,11 +103,17 @@ class AuthService {
   }
 
   async getOtherUsers(currentUserId) {
+    const currentUser = await userModel.findById(currentUserId)
+    if (!currentUser.isActivated) {
+      throw ApiError.BadRequest(
+        'Error loading data! Please, activate your account!'
+      )
+    }
     const users = await userModel.find({
       _id: { $ne: currentUserId },
-      isActivated: true
+      isActivated: true,
     })
-    const usersDTO = users.map(user => new DataUserDTO(user))
+    const usersDTO = users.map((user) => new DataUserDTO(user))
     return usersDTO
   }
 
@@ -134,9 +138,11 @@ class AuthService {
       const ext = originalname.split('.').pop()
       newAvatar = uuidv4() + '.' + ext
 
-      fileServices.deleteFile(
-        path.join(path.resolve(), process.env.STATIC_FOLDER_NAME, user.avatar),
-      )
+      if (user.avatar) {
+        fileServices.deleteFile(
+          path.join(path.resolve(), process.env.STATIC_FOLDER_NAME, user.avatar)
+        )
+      }
 
       fileServices.saveFile(
         path.join(path.resolve(), process.env.STATIC_FOLDER_NAME, newAvatar),
@@ -144,7 +150,6 @@ class AuthService {
       )
       user['avatar'] = newAvatar
     }
-
     user.save()
     return new AuthUserDTO(user)
   }

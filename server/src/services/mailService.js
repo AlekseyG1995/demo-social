@@ -16,7 +16,7 @@ class MailService {
 
   async sendActivationMail(to, link) {
     try {
-      // logger.info('[mailService] send imitation!')
+      // logger.debug('[mailService] send imitation!')
       await this.transporter.sendMail({
         from: process.env.SMTP_USER,
         to,
@@ -29,7 +29,7 @@ class MailService {
                 </div>
               `,
       })
-      logger.debug('[mailService] Mail has been send!')
+      logger.info('[mailService] Mail has been send : ', to)
     } catch (e) {
       logger.error('[mailService] Error sanding mail!', e)
     }
