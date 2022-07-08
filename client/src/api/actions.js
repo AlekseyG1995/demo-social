@@ -63,11 +63,9 @@ class AuthApi {
     return async (dispatch) => {
       try {
         const res = await UserService.fetchUsers()
-        console.log('res! ', res)
         dispatch(setPeople(res.data))
         console.log('[API actions] = getData OK', res)
       } catch (e) {
-        // alert('Error:', e?.response?.data?.message)
         console.log('[API actions] = getData ERR', e)
         const expectedMsg = e?.response?.data?.message
         alert(expectedMsg ? expectedMsg : 'error')
